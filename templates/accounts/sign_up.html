@@ -1,0 +1,28 @@
+{% extends 'navbar.html' %}
+{% load crispy_forms_tags %}
+
+{% block css %}
+    .sign_up{
+    width: 550px;
+    border: 1px solid #ccc;
+    padding: 50px;
+    background-color: white;
+    }
+{% endblock %}
+
+{% block title %}
+    Sign Up
+{% endblock %}
+
+
+{% block content %}
+    <div class="container sign_up">
+        <h1>Đăng ký tài khoản!</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <br>
+            <button type="submit" class="btn btn-success" style="width: 100%">Đăng ký</button>
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends 'navbar.html' %}
+
+{% block css %}
+{% endblock %}
+
+{% block title %}
+    Edit profile of {{ user.username }}
+{% endblock %}
+
+
+{% block content %}
+    <div class="container">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="btn btn-success">Sửa thông tin</button>
+        </form>
+    </div>
+{% endblock %}

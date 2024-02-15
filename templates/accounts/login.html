@@ -1,0 +1,36 @@
+{% extends 'navbar.html' %}
+
+{% block css %}
+    #form-login {
+    width: 550px;
+    border: 1px solid #ccc;
+    padding: 50px;
+        background-color: white;
+    }
+    input, button {
+        width: 100%;
+    }
+{% endblock %}
+
+{% block title %}
+    Đăng nhập
+{% endblock %}
+
+
+{% block content %}
+    <div class="container" id="form-login">
+        <h1>Đăng nhập</h1>
+        <form method="post">
+            {% csrf_token %}
+            <label for="username">
+                Tên tài khoản
+            </label><br>
+            <input type="text" name="username" id="username">
+            <label for="password">
+                Mật khẩu:
+            </label>
+            <input type="password" name="password" id="password">
+            <button type="submit" class="btn btn-success">Đăng nhập</button>
+        </form>
+    </div>
+{% endblock %}

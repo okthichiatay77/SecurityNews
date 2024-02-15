@@ -1,0 +1,71 @@
+{% extends 'navbar.html' %}
+
+{% block css %}
+    #info-profile {
+    background-image: url('/media/{{ profile.image_cover_profile }}');
+    width: 100%;
+    }
+{% endblock %}
+
+{% block title %}
+    Profile of {{ profile.user.username }}
+{% endblock %}
+
+
+{% block content %}
+    <div class="container" style="background-color: white; padding: 20px;">
+        <div id="info-profile" style="padding: 20px;">
+            <div class="row" style="width: 50%;">
+                <div class="col-4">
+                    <img src="/media/{{ profile.avatar_profile }}"
+                         style="border-radius: 50%; width: 120px; height: 120px;">
+                </div>
+                <div class="col-4">
+                    <p><b>Tên đầy đủ: {{ profile.full_name }}</b></p>
+                    <p>Ngày sinh: {{ profile.dob|date:"d-m-Y" }}</p>
+                    <p>Số điện thoại: {{ profile.phone_number }}</p>
+                </div>
+                <div class="col-4">
+                    <a href="{% url 'accounts:change_password' pk=profile.user.pk %}">
+                        <button class="btn btn-danger">Đổi mật khẩu!</button>
+                    </a>
+                    <a href="{% url 'accounts:edit_profile' %}">
+                        <button class="btn btn-success">Sửa thông tin!</button>
+                    </a>
+                    <a href="#">
+                        <button class="btn btn-success">Tạo bài viết</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <p>Mô tả: {{ profile.description }}</p>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <p>
+                    <a href="{% url 'accounts:change_password' pk=profile.user.pk %}">
+                        Đổi mật khẩu!
+                    </a>
+                </p>
+                <p>
+                    <a href="{% url 'accounts:edit_profile' %}">
+                        Sửa thông tin!
+                    </a>
+                </p>
+                <p>
+                    <a href="#">
+                        Tạo bài viết
+                    </a>
+                </p>
+            </div>
+            <div class="col">
+                <img src="/media/{{ profile.avatar_profile }}"
+                     style="border-radius: 50%; width: 120px; height: 120px;">
+                <p class="text-algin: center">Avatar</p>
+            </div>
+            <div class="col"></div>
+        </div>
+    </div>
+{% endblock %}
