@@ -1,10 +1,152 @@
 {% extends 'navbar.html' %}
 
+
+{% block css %}
+    .form-find-cve {
+        background-color: white;
+        padding: 25px;
+        border-radius: 20px;
+        line-height: 30px;
+        margin-bottom: 50px;
+        z-index: 99;
+    }
+    form > input {
+        padding: 10px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+    .button-find {
+        padding: 15px 30px 15px 30px;
+        font-weight: bold;
+    }
+{% endblock %}
+
 {% block title %}
     Home
 {% endblock %}
 
 
 {% block content %}
-    <h1>Home</h1>
+    <img src="/media/bg-sec.jpg" style="width: 100%">
+    <div class="container">
+        <div class="form-find-cve">
+            <h2><b style="color: dodgerblue">FIND</b> <b>YOUR</b> <b style="color: dodgerblue">CVE</b></h2>
+            <p>Find technologies...</p>
+            <form method="post">
+                <input type="text" name="id_cve" style="width: 100%" placeholder="Find CVE-ID">
+                <button type="submit" class="btn btn-primary button-find">FIND NOW</button>
+            </form>
+        </div>
+        <div class="row">
+            <h2>Lastest News</h2>
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                <div class="col">
+                    <div class="card h-100">
+                        <img src="/media/avatar_profile/anphuong.png" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">This is a longer card with supporting text below as a natural lead-in
+                                to
+                                additional content. This content is a little bit longer.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100">
+                        <img src="/media/avatar_profile/anphuong.png" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">This is a short card.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100">
+                        <img src="/media/avatar_profile/anphuong.png" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">This is a longer card with supporting text below as a natural lead-in
+                                to
+                                additional content.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <h2>Technoligies</h2>
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                <div class="col">
+                    <div class="card h-100">
+                        <img src="/media/avatar_profile/anphuong.png" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">This is a longer card with supporting text below as a natural lead-in
+                                to
+                                additional content. This content is a little bit longer.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100">
+                        <img src="/media/avatar_profile/anphuong.png" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">This is a short card.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100">
+                        <img src="/media/avatar_profile/anphuong.png" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">This is a longer card with supporting text below as a natural lead-in
+                                to
+                                additional content.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <h2>List CVE</h2>
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                <div class="col">
+                    <div class="card h-100">
+                        <img src="/media/avatar_profile/anphuong.png" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">This is a longer card with supporting text below as a natural lead-in
+                                to
+                                additional content. This content is a little bit longer.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100">
+                        <img src="/media/avatar_profile/anphuong.png" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">This is a short card.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card h-100">
+                        <img src="/media/avatar_profile/anphuong.png" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Card title</h5>
+                            <p class="card-text">This is a longer card with supporting text below as a natural lead-in
+                                to
+                                additional content.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
 {% endblock %}

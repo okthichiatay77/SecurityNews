@@ -1,11 +1,11 @@
-from django.shortcuts import render, HttpResponseRedirect, get_object_or_404
-from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import AuthenticationForm
+from django.shortcuts import render, HttpResponseRedirect
 from django.urls import reverse
 
-from . import models
 from . import forms
+from . import models
 
 
 def login_view(request):
@@ -45,9 +45,17 @@ def logout_view(request):
 
 @login_required
 def profile_detail_view(request):
+    form = forms.EditProfile()
     profile = models.UserProfile.objects.get(user=request.user)
+    if request.method == 'POST':
+        form = forms.EditProfile(request.POST or None, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save(commit=True)
+            return HttpResponseRedirect(reverse('accounts:profile'))
+
     context = {
-        'profile': profile
+        'profile': profile,
+        'form': form,
     }
     return render(request, 'accounts/profile.html', context=context)
 
@@ -81,6 +89,7 @@ def change_password_view(request, pk):
             cur_user.set_password(new_password)
             cur_user.save()
             mess = "Bạn đã thay đổi mật khẩu thành công!"
+            return HttpResponseRedirect(reverse('app:home'))
     context = {
         'mess': mess
     }

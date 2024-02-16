@@ -16,9 +16,18 @@
     <title>{% block title %}
 
     {% endblock %}</title>
-    <style>{% block css %}
+    <style>
+        {% block css %}
 
-    {% endblock %}</style>
+        {% endblock %}
+        .icon-social > a > img {
+            height: 30px;
+            width: 30px;
+        }
+        body {
+            overflow-x: hidden;
+        }
+    </style>
 </head>
 <body style="background-color: lightgray">
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -53,9 +62,36 @@
         </ul>
     </div>
 </nav>
-<br>
 {% block content %}
 
 {% endblock %}
+<br>
+<footer style="background-color: black; color: white;">
+    <div class="row" style="padding: 30px">
+        <div class="col">
+            <h3>QUICK LINKS</h3>
+            <p>Go fast to your destination</p>
+            <p><a>Home</a></p>
+            <p><a>Dashboard</a></p>
+            <p><a>Finding</a></p>
+            <p><a>Profile</a></p>
+        </div>
+        <div class="col icon-social">
+            <h3>ABOUT</h3>
+            <a><img alt="icon-facebook" src="/media/icon-fb.png" /></a>
+            <a><img alt="icon-instagram" src="/media/icon-instagram.png" /></a>
+            <a><img alt="icon-linkedin" src="/media/icon-linkedin.png" /></a>
+            <a><img alt="icon-twitter" src="/media/icon-twitter.png" /></a>
+        </div>
+        <div class="col">
+            <h3>FOR DEV OWNER</h3>
+            <p>We value our CVE listings and are committed to providing support and the latest vulnerabilities based on the technologies our users follow.</p>
+            <h3>BECOME OUR PARTNER</h3>
+            <p>Interested in becoming our partner? Contact us here</p>
+            <p><b>Email: example@gmail.com</b></p>
+            <p><b>Phone number: 1900010000</b></p>
+        </div>
+    </div>
+</footer>
 </body>
 </html>
