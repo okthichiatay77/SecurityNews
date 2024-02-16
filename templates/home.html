@@ -3,21 +3,35 @@
 
 {% block css %}
     .form-find-cve {
-        background-color: white;
-        padding: 25px;
-        border-radius: 20px;
-        line-height: 30px;
-        margin-bottom: 50px;
-        z-index: 99;
+    background-color: white;
+    padding: 25px;
+    border-radius: 20px;
+    line-height: 30px;
+    margin-top: -100px;
+    margin-bottom: 50px;
+    z-index: 99;
+    position:relative;
     }
     form > input {
-        padding: 10px;
-        border-radius: 10px;
-        margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 20px;
     }
     .button-find {
-        padding: 15px 30px 15px 30px;
-        font-weight: bold;
+    padding: 15px 30px 15px 30px;
+    font-weight: bold;
+    }
+    body {
+    background-color: #222831 !important;
+    }
+    .top-right {
+    position: absolute;
+    top: 100px;
+    right: 16px;
+    }
+    .image-first {
+    position: relative;
+    color: white;
     }
 {% endblock %}
 
@@ -27,10 +41,32 @@
 
 
 {% block content %}
-    <img src="/media/bg-sec.jpg" style="width: 100%">
+    <div class="image-first">
+        <img src="/media/bg-sec.jpg" style="width: 100%" alt="background">
+        <div class="top-right">
+            <div class="row">
+                <div class="col-6"></div>
+                <div class="col-6">
+                    <h2 style="font-size: 52px">LET'S FIND</h2>
+                    <p>
+                        Technology-based CVE Search, Vulnerabilities and CVEs Suggested based on the technology you are
+                        tracking!
+                    </p>
+                    <div class="row">
+                        <div class="col">
+                            <button style="width: 100%" class="btn btn-primary">FIND NOW</button>
+                        </div>
+                        <div class="col">
+                            <button style="width: 100%" class="btn btn-primary">LEARN MORE</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container">
         <div class="form-find-cve">
-            <h2><b style="color: dodgerblue">FIND</b> <b>YOUR</b> <b style="color: dodgerblue">CVE</b></h2>
+            <h1><b style="color: dodgerblue">FIND</b> <b>YOUR</b> <b style="color: dodgerblue">CVE</b></h1>
             <p>Find technologies...</p>
             <form method="post">
                 <input type="text" name="id_cve" style="width: 100%" placeholder="Find CVE-ID">
@@ -38,115 +74,76 @@
             </form>
         </div>
         <div class="row">
-            <h2>Lastest News</h2>
+            <h2 style="color: white">Lastest News</h2>
             <div class="row row-cols-1 row-cols-md-3 g-4">
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="/media/avatar_profile/anphuong.png" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">This is a longer card with supporting text below as a natural lead-in
-                                to
-                                additional content. This content is a little bit longer.</p>
+                {% for i in list_news %}
+                    <div class="col">
+                        <div class="card h-100">
+                            <img src="/media/avatar_profile/anphuong.png" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h5 class="card-title">Card title</h5>
+                                <p class="card-text">This is a longer card with supporting text below as a natural
+                                    lead-in
+                                    to
+                                    additional content. This content is a little bit longer.</p>
+                                <a>
+                                    <button class="btn btn-dark">READ NOW</button>
+                                </a>
+                            </div>
                         </div>
                     </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <br>
+    <div style="background-color: white !important; color: black !important; padding: 20px;">
+        <div class="container">
+            <div class="row">
+                <h2>Technoligies</h2>
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    {% for i in list_news %}
+                        <div class="col">
+                            <div class="card h-100">
+                                <img src="/media/avatar_profile/anphuong.png" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">Card title</h5>
+                                    <p class="card-text">This is a longer card with supporting text below as a natural
+                                        lead-in
+                                        to
+                                        additional content. This content is a little bit longer.</p>
+                                    <a>
+                                        <button class="btn btn-dark">READ NOW</button>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
                 </div>
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="/media/avatar_profile/anphuong.png" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">This is a short card.</p>
+            </div>
+            <br>
+            <div class="row">
+                <h2>List CVE</h2>
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    {% for i in list_news %}
+                        <div class="col">
+                            <div class="card h-100">
+                                <img src="/media/avatar_profile/anphuong.png" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">Card title</h5>
+                                    <p class="card-text">This is a longer card with supporting text below as a natural
+                                        lead-in
+                                        to
+                                        additional content. This content is a little bit longer.</p>
+                                    <a>
+                                        <button class="btn btn-dark">READ NOW</button>
+                                    </a>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="/media/avatar_profile/anphuong.png" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">This is a longer card with supporting text below as a natural lead-in
-                                to
-                                additional content.</p>
-                        </div>
-                    </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
-        <br>
-        <div class="row">
-            <h2>Technoligies</h2>
-            <div class="row row-cols-1 row-cols-md-3 g-4">
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="/media/avatar_profile/anphuong.png" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">This is a longer card with supporting text below as a natural lead-in
-                                to
-                                additional content. This content is a little bit longer.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="/media/avatar_profile/anphuong.png" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">This is a short card.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="/media/avatar_profile/anphuong.png" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">This is a longer card with supporting text below as a natural lead-in
-                                to
-                                additional content.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <br>
-        <div class="row">
-            <h2>List CVE</h2>
-            <div class="row row-cols-1 row-cols-md-3 g-4">
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="/media/avatar_profile/anphuong.png" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">This is a longer card with supporting text below as a natural lead-in
-                                to
-                                additional content. This content is a little bit longer.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="/media/avatar_profile/anphuong.png" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">This is a short card.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card h-100">
-                        <img src="/media/avatar_profile/anphuong.png" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">This is a longer card with supporting text below as a natural lead-in
-                                to
-                                additional content.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
     </div>
 {% endblock %}
