@@ -2,11 +2,28 @@
 {% load crispy_forms_tags %}
 
 {% block css %}
-    .sign_up{
-    width: 550px;
+    body {
+        background-color: #2b2426 !important;
+    }
+    input, button {
+        width: 100%;
+    }
+    .form-login {
+    width: 60%;
     border: 1px solid #ccc;
     padding: 50px;
     background-color: white;
+    padding: 25px;
+    border-radius: 5px;
+    line-height: 30px;
+    margin-top: -120px;
+    margin-bottom: 50px;
+    z-index: 99;
+    position:relative;
+    }
+    .form-login > form > * {
+    margin-bottom: 20px;
+    border-radius: 5px;
     }
 {% endblock %}
 
@@ -16,13 +33,22 @@
 
 
 {% block content %}
-    <div class="container sign_up">
-        <h1>Đăng ký tài khoản!</h1>
+    <img src="/media/bg-sec.jpg" style="width: 100%" alt="background">
+    <div class="container form-login">
+        <div class="row">
+            <div class="col">
+                <h2>SIGN UP</h2>
+            </div>
+            <div class="col">
+                <p style="float: right">Already have an account? <a href="{% url 'accounts:login' %}"><b style="background-color: black; color: white; padding: 5px; font-size: 10px;">LOGIN HERE</b></a></p>
+            </div>
+        </div>
         <form method="post">
             {% csrf_token %}
             {{ form|crispy }}
-            <br>
-            <button type="submit" class="btn btn-success" style="width: 100%">Đăng ký</button>
+            <button type="submit" class="btn btn-dark" style="width: 100%">SIGN UP</button>
+            <button class="btn btn-primary">Countinue with Zalo</button>
+            <button class="btn btn-light" style="border-color: black">Countinue with Google</button>
         </form>
     </div>
 {% endblock %}

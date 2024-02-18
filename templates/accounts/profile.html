@@ -16,12 +16,12 @@
     text-align: center;
     }
     .list-page-profile > p > a {
-        color: black;
-        text-decoration: none;
-        font-weight: bold;
+    color: black;
+    text-decoration: none;
+    font-weight: bold;
     }
     .list-page-profile > p > .active {
-        color: dodgerblue;
+    color: dodgerblue;
     }
 {% endblock %}
 
@@ -35,10 +35,12 @@
         <div class="row">
             <div class="col-2 list-page-profile">
                 <p>
-                    <a class="{% if '/account/profile/' == request.path %}active{% endif %}" href="{% url 'accounts:profile' %}">Personal Info</a>
+                    <a class="{% if '/account/profile/' == request.path %}active{% endif %}"
+                       href="{% url 'accounts:profile' %}">Personal Info</a>
                 </p>
                 <p>
-                    <a class="{% if '/account/change-password/' in request.path %}active{% endif %}" href="{% url 'accounts:change_password' pk=profile.user.pk %}">Password</a>
+                    <a class="{% if '/account/change-password/' in request.path %}active{% endif %}"
+                       href="{% url 'accounts:change_password' pk=profile.user.pk %}">Password</a>
                 </p>
                 <p>
                     <a href="#">Tech Follow</a>
@@ -53,7 +55,16 @@
                 <form method="post" class="form-edit-profile" enctype="multipart/form-data">
                     {% csrf_token %}
                     <h2><b>YOUR</b> <b style="color: dodgerblue">INFORMATION</b></h2>
-                    {{ form }}
+                    <label for="id_full_name">Full name:</label>
+                    <input type="text" name="full_name" maxlength="40" id="id_full_name" value="{{ profile.full_name }}">
+                    <label for="id_dob">Dob:</label>
+                    <input type="text" name="dob" maxlength="50" id="id_dob" value="{{ profile.dob }}">
+                    <label for="id_phone_number">Phone number:</label>
+                    <input type="text" name="phone_number" maxlength="20" id="id_phone_number" value="{{ profile.phone_number }}">
+                    <label for="id_email_profile">Email profile:</label>
+                    <input type="text" name="email_profile" maxlength="100" id="id_email_profile" value="{{ profile.email_profile }}">
+                    <label for="id_avatar_profile">Avatar profile:</label>
+                    <input type="file" name="avatar_profile" accept="image/*" id="id_avatar_profile">
                     <button type="submit" class="btn btn-primary">SAVE</button>
                 </form>
             </div>
