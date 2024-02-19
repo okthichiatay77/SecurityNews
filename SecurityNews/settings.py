@@ -74,18 +74,13 @@ WSGI_APPLICATION = 'SecurityNews.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'security_news',
+        'USER': 'root',
+        'PASSWORD': '0915104795',
+        'HOST': 'localhost',
+        'PORT': '',
     }
-    # 'default': {
-    #     'ENGINE': 'mssql',
-    #     'NAME': 'test',
-    #     'HOST': 'DESKTOP-BLSQLU0\\SQLEXPRESS',
-    #     'PORT': '',
-    #     "OPTIONS": {
-    #         "driver": "ODBC Driver 17 for SQL Server",
-    #     },
-    # }
 }
 
 
