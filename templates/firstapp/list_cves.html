@@ -1,11 +1,15 @@
 {% extends 'navbar.html' %}
 
 {% block css %}
+    a {
+    text-decoration: none;
+    color: black;
+    }
     .img-cve {
     padding: 20px;
     border-radius: 30px;
     width: 100%;
-    height: auto;
+    height: 250px;
     }
 {% endblock %}
 
@@ -19,12 +23,15 @@
             <div class="col-3">
             </div>
             <div class="col-9">
-                <div class="input-group">
-                    <input name="search_focus" type="search" class="form-control" placeholder="Search..."/>
-                    <button type="button" class="btn btn-primary" data-mdb-ripple-init>
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="input-group">
+                        <input name="search_focus" type="search" class="form-control" placeholder="Search..."/>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </form>
             </div>
 
         </div>
@@ -64,16 +71,21 @@
                     <div class="card mb-3">
                         <div class="row g-0">
                             <div class="col-md-6">
-                                <img src="/media/bg-sec.jpg" class="img-fluid rounded-start img-cve" alt="avatar-cve">
+                                <a href="{% url 'app:detail_cves' pk=it.pk %}"><img src="/media/{{ it.avatar }}"
+                                                                                    class="img-fluid rounded-start img-cve"
+                                                                                    alt="avatar-cve"></a>
                             </div>
                             <div class="col-md-6">
                                 <div class="card-body">
-                                    <h5 class="card-title">CVE-1999-99</h5>
-                                    <p class="card-text">Product: xxx</p>
-                                    <p class="card-text">Title: xxx</p>
-                                    <p class="card-text">Pusblished Date: xxx</p>
+                                    <h5 class="card-title"><a
+                                            href="{% url 'app:detail_cves' pk=it.pk %}">{{ it.title }}</a></h5>
+                                    <p class="card-text">Product: {{ it.affected.product.name }}</p>
+                                    <p class="card-text">Title: {{ it.short_name }}</p>
+                                    <p class="card-text">Pusblished Date: {{ it.publish_date }}</p>
                                     <p class="card-text">
-                                        <button class="btn btn-primary">READ NOW</button>
+                                        <a href="{% url 'app:detail_cves' pk=it.pk %}">
+                                            <button class="btn btn-primary">READ NOW</button>
+                                        </a>
                                     </p>
                                 </div>
                             </div>
