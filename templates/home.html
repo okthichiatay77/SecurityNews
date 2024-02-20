@@ -33,6 +33,12 @@
     position: relative;
     color: white;
     }
+    .rectangle {
+      height: 40px;
+      width: 15px;
+      background-color: #0F60DD;
+      float:left;
+    }
 {% endblock %}
 
 {% block title %}
@@ -74,24 +80,27 @@
             </form>
         </div>
         <div class="row">
-            <h2 style="color: white">Lastest News</h2>
+            <a href="#" style="text-decoration: none;"><h2 style="color: white"><div class="rectangle"></div>&nbsp;Lastest News</h2></a>
             <div class="row row-cols-1 row-cols-md-3 g-4">
                 {% for i in list_news %}
-                    <div class="col">
-                        <div class="card h-100">
-                            <img src="/media/avatar_profile/anphuong.png" class="card-img-top" alt="...">
-                            <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <p class="card-text">This is a longer card with supporting text below as a natural
-                                    lead-in
-                                    to
-                                    additional content. This content is a little bit longer.</p>
-                                <a>
-                                    <button class="btn btn-dark">READ NOW</button>
-                                </a>
+                        <div class="col">
+                            <div class="card h-100">
+                                <img src="/media/bg-sec.jpg" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h3 class="card-title">News {{ i }}</h3>
+                                    <p class="card-text">
+                                        Publish Date: xxxx
+                                    </p>
+                                    <p class="card-text">
+                                        Type: xxxx
+                                    </p>
+
+                                    <a>
+                                        <button class="btn btn-dark">READ NOW</button>
+                                    </a>
+                                </div>
                             </div>
                         </div>
-                    </div>
                 {% endfor %}
             </div>
         </div>
@@ -100,18 +109,21 @@
     <div style="background-color: white !important; color: black !important; padding: 20px;">
         <div class="container">
             <div class="row">
-                <a href="#"><h2>Technoligies</h2></a>
+                <a style="text-decoration: none;" href="#"><h2 style="color: black"><div class="rectangle"></div>&nbsp;Technoligies</h2></a>
                 <div class="row row-cols-1 row-cols-md-3 g-4">
                     {% for i in list_news %}
                         <div class="col">
                             <div class="card h-100">
-                                <img src="/media/avatar_profile/anphuong.png" class="card-img-top" alt="...">
+                                <img src="/media/bg-sec.jpg" class="card-img-top" alt="...">
                                 <div class="card-body">
-                                    <h5 class="card-title">Card title</h5>
-                                    <p class="card-text">This is a longer card with supporting text below as a natural
-                                        lead-in
-                                        to
-                                        additional content. This content is a little bit longer.</p>
+                                    <h3 class="card-title">Tech {{ i }}</h3>
+                                    <p class="card-text">
+                                        Publish Date: xxxx
+                                    </p>
+                                    <p class="card-text">
+                                        Type: xxxx
+                                    </p>
+
                                     <a>
                                         <button class="btn btn-dark">READ NOW</button>
                                     </a>
@@ -123,18 +135,21 @@
             </div>
             <br>
             <div class="row">
-                <a href="{% url 'app:list_cves' %}"><h2>List CVE</h2></a>
+                <a style="text-decoration: none;" href="{% url 'app:list_cves' %}"><h2 style="color: black;"><div class="rectangle"></div>&nbsp;List CVE</h2></a>
                 <div class="row row-cols-1 row-cols-md-3 g-4">
                     {% for i in list_news %}
                         <div class="col">
                             <div class="card h-100">
-                                <img src="/media/avatar_profile/anphuong.png" class="card-img-top" alt="...">
+                                <img src="/media/bg-sec.jpg" class="card-img-top" alt="...">
                                 <div class="card-body">
-                                    <h5 class="card-title">Card title</h5>
-                                    <p class="card-text">This is a longer card with supporting text below as a natural
-                                        lead-in
-                                        to
-                                        additional content. This content is a little bit longer.</p>
+                                    <h3 class="card-title">CVE{{ i }}</h3>
+                                    <p class="card-text">
+                                        Publish Date: xxxx
+                                    </p>
+                                    <p class="card-text">
+                                        Type: xxxx
+                                    </p>
+
                                     <a>
                                         <button class="btn btn-dark">READ NOW</button>
                                     </a>
