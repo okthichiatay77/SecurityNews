@@ -3,8 +3,10 @@ from django.shortcuts import render
 from .models import CVE, Affected, References, Metric
 
 def index_view(request):
+    list_cve = CVE.objects.all()[:3]
     context = {
-        'list_news': ['1', '2', '3']
+        'list_test': [1, 2, 3],
+        'list_news': list_cve,
     }
     return render(request, 'home.html', context=context)
 

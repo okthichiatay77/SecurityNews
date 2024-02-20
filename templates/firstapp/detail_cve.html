@@ -43,27 +43,28 @@
                 <img src="/media/{{ detail_cve.avatar }}" style="width: 100%; border-radius: 10px;">
                 <div class="box-info">
                     <h2>DESCCRIPTION</h2>
+                    <hr>
                     <p>{{ detail_cve.description|safe }}</p>
                 </div>
                 <div class="box-info">
                     <h2>Vulnerable products, Vendor</h2>
+                    <hr>
                     <p>Name: {{ detail_cve.affected.product.name }}</p>
                     <p>Version: {{ detail_cve.affected.product.version.version }}</p>
                     <p>Vendor name: {{ detail_cve.affected.vendor.name }}</p>
                 </div>
                 <div class="box-info">
                     <h2>Solution, References</h2>
+                    <hr>
                     <p>Solution: {{ detail_cve.solution }}</p>
                     <p>Title: {{ detail_cve.references.name }}</p>
                     <p>URL: {{ detail_cve.references.url }}</p>
-                </div>
-                <div>
-                    <p>Base Score</p>
                 </div>
             </div>
             <div class="col-4">
                 <div class="box-info">
                     <h2>CVE Informations</h2>
+                    <hr>
                     <p>CVE ID: {{ detail_cve.title }}</p>
                     <p>Published Date: {{ detail_cve.publish_date }}</p>
                     <p>Modified Date: {{ detail_cve.date_update }}</p>
@@ -71,6 +72,7 @@
                 </div><br>
                 <div class="box-info">
                     <h2>Asking for information</h2>
+                    <hr>
                     <form method="post">
                         {% csrf_token %}
                         <input type="text" name="your_name" placeholder="Your Name"><br>

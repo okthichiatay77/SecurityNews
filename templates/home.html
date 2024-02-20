@@ -24,6 +24,10 @@
     body {
     background-color: #222831 !important;
     }
+    a {
+        text-decoration: none;
+        color: black;
+    }
     .top-right {
     position: absolute;
     top: 100px;
@@ -82,7 +86,7 @@
         <div class="row">
             <a href="#" style="text-decoration: none;"><h2 style="color: white"><div class="rectangle"></div>&nbsp;Lastest News</h2></a>
             <div class="row row-cols-1 row-cols-md-3 g-4">
-                {% for i in list_news %}
+                {% for i in list_test %}
                         <div class="col">
                             <div class="card h-100">
                                 <img src="/media/bg-sec.jpg" class="card-img-top" alt="...">
@@ -111,7 +115,7 @@
             <div class="row">
                 <a style="text-decoration: none;" href="#"><h2 style="color: black"><div class="rectangle"></div>&nbsp;Technoligies</h2></a>
                 <div class="row row-cols-1 row-cols-md-3 g-4">
-                    {% for i in list_news %}
+                    {% for i in list_test %}
                         <div class="col">
                             <div class="card h-100">
                                 <img src="/media/bg-sec.jpg" class="card-img-top" alt="...">
@@ -140,17 +144,17 @@
                     {% for i in list_news %}
                         <div class="col">
                             <div class="card h-100">
-                                <img src="/media/bg-sec.jpg" class="card-img-top" alt="...">
+                                <a href="{% url 'app:detail_cves' pk=i.pk %}"><img src="/media/{{ i.avatar }}" class="card-img-top" alt="..." style="width: 100%; height: 200px;"></a>
                                 <div class="card-body">
-                                    <h3 class="card-title">CVE{{ i }}</h3>
+                                    <a href="{% url 'app:detail_cves' pk=i.pk %}"><h3 class="card-title">{{ i.title }}</h3></a><br>
                                     <p class="card-text">
-                                        Publish Date: xxxx
+                                        Publish Date: {{ i.publish_date }}
                                     </p>
                                     <p class="card-text">
-                                        Type: xxxx
+                                        Type: {{ i.data_type }}
                                     </p>
 
-                                    <a>
+                                    <a href="{% url 'app:detail_cves' pk=i.pk %}">
                                         <button class="btn btn-dark">READ NOW</button>
                                     </a>
                                 </div>
