@@ -81,9 +81,9 @@ class CvssV31(models.Model):
 
 class Metric(models.Model):
     format = models.CharField(max_length=200)
-    cvssv20 = models.ForeignKey(CvssV20, on_delete=models.CASCADE, related_name='metric_cvss_v20')
-    cvssv30 = models.ForeignKey(CvssV20, on_delete=models.CASCADE, related_name='metric_cvss_v30')
-    cvssv31 = models.ForeignKey(CvssV20, on_delete=models.CASCADE, related_name='metric_cvss_v31')
+    cvssv20 = models.ForeignKey(CvssV20, on_delete=models.CASCADE, related_name='metric_cvss_v20', default=None)
+    cvssv30 = models.ForeignKey(CvssV20, on_delete=models.CASCADE, related_name='metric_cvss_v30', default=None)
+    cvssv31 = models.ForeignKey(CvssV20, on_delete=models.CASCADE, related_name='metric_cvss_v31', default=None)
 
     def __str__(self):
         return str(self.format)
@@ -93,20 +93,20 @@ class Metric(models.Model):
 
 class CVE(models.Model):
     title = models.CharField(max_length=200, blank=True)
-    data_type = models.CharField(max_length=200)
-    data_version = models.CharField(max_length=100)
+    data_type = models.CharField(max_length=200, default="")
+    data_version = models.CharField(max_length=100, default="")
     avatar = models.ImageField(upload_to='avatar_cve')
-    publish_date = models.DateTimeField(blank=True)
+    publish_date = models.DateTimeField(blank=True, default=None)
     description = RichTextField(blank=True, null=True)
-    solution = models.CharField(max_length=200)
-    short_name = models.CharField(max_length=200)
-    date_reserved = models.DateTimeField(blank=True)
-    date_publish = models.DateTimeField(blank=True)
-    date_update = models.DateTimeField(blank=True)
-    state = models.CharField(max_length=100)
-    affected = models.ForeignKey(Affected, on_delete=models.CASCADE, related_name='cve_affected', blank=True)
-    references = models.ForeignKey(References, on_delete=models.CASCADE, related_name='cve_reference', blank=True)
-    metric = models.ForeignKey(Metric, on_delete=models.CASCADE, related_name='cve_metric', blank=True)
+    solution = models.CharField(max_length=200, default="")
+    short_name = models.CharField(max_length=200, default="")
+    date_reserved = models.DateTimeField(blank=True, default=None)
+    date_publish = models.DateTimeField(blank=True, default=None)
+    date_update = models.DateTimeField(blank=True, default=None)
+    state = models.CharField(max_length=100, default="")
+    affected = models.ForeignKey(Affected, on_delete=models.CASCADE, related_name='cve_affected', blank=True, default=None)
+    references = models.ForeignKey(References, on_delete=models.CASCADE, related_name='cve_reference', blank=True, default=None)
+    metric = models.ForeignKey(Metric, on_delete=models.CASCADE, related_name='cve_metric', blank=True, default=None)
 
     def __str__(self):
         return str(self.short_name)
