@@ -2,14 +2,14 @@
 
 {% block css %}
     a {
-        text-decoration: none;
-        color: black;
+    text-decoration: none;
+    color: black;
     }
     input, textarea {
-        width: 100%;
-        border-radius: 5px;
-        margin-bottom: 20px;
-        padding: 10px;
+    width: 100%;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    padding: 10px;
     }
     .img-cve {
     padding: 20px;
@@ -18,12 +18,27 @@
     height: auto;
     }
     .box-info {
-        border-radius: 30px;
-        border-color: black;
-        background-color: lightgray;
-        padding: 20px;
-        margin-bottom: 20px;
-        margin-top: 20px;
+    {#        border-radius: 30px;#}
+    {#        border-color: black;#}
+    {#        background-color: lightgray;#}
+    {#        padding: 20px;#}
+    margin-bottom: 20px;
+    margin-top: 20px;
+    }
+    .title-box > * {
+    padding: 10px;
+    background-color: black !important;
+    color: white !important;
+    border-top-right-radius: 10px !important;
+    border-top-left-radius: 10px !important;
+    margin: 0;
+    }
+    .content-box {
+    background-color: lightgray !important;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    margin: 0;
+    padding: 10px;
     }
 {% endblock %}
 
@@ -42,45 +57,61 @@
                 <h1>{{ detail_cve.short_name }}</h1>
                 <img src="/media/{{ detail_cve.avatar }}" style="width: 100%; border-radius: 10px;">
                 <div class="box-info">
-                    <h2>DESCCRIPTION</h2>
-                    <hr>
-                    <p>{{ detail_cve.description|safe }}</p>
+                    <div class="title-box">
+                        <h2>DESCCRIPTION</h2>
+                    </div>
+                    <div class="content-box">
+                        <p>{{ detail_cve.description|safe }}</p>
+                    </div>
                 </div>
                 <div class="box-info">
-                    <h2>Vulnerable products, Vendor</h2>
-                    <hr>
-                    <p>Name: {{ detail_cve.affected.product.name }}</p>
-                    <p>Version: {{ detail_cve.affected.product.version.version }}</p>
-                    <p>Vendor name: {{ detail_cve.affected.vendor.name }}</p>
+                    <div class="title-box">
+                        <h2>Vulnerable products, Vendor</h2>
+                    </div>
+                    <div class="content-box">
+                        <p>Name: {{ detail_cve.affected.product.name }}</p>
+                        <p>Version: {{ detail_cve.affected.product.version.version }}</p>
+                        <p>Vendor name: {{ detail_cve.affected.vendor.name }}</p>
+                    </div>
                 </div>
                 <div class="box-info">
-                    <h2>Solution, References</h2>
-                    <hr>
-                    <p>Solution: {{ detail_cve.solution }}</p>
-                    <p>Title: {{ detail_cve.references.name }}</p>
-                    <p>URL: {{ detail_cve.references.url }}</p>
+                    <div class="title-box">
+                        <h2>Solution, References</h2>
+                    </div>
+                    <div class="content-box">
+                        <p>Solution: {{ detail_cve.solution }}</p>
+                        <p>Title: {{ detail_cve.references.name }}</p>
+                        <p>URL: {{ detail_cve.references.url }}</p>
+                    </div>
                 </div>
             </div>
             <div class="col-4">
                 <div class="box-info">
-                    <h2>CVE Informations</h2>
-                    <hr>
-                    <p>CVE ID: {{ detail_cve.title }}</p>
-                    <p>Published Date: {{ detail_cve.publish_date }}</p>
-                    <p>Modified Date: {{ detail_cve.date_update }}</p>
-                    <button class="btn btn-dark">Follow News Now</button>
-                </div><br>
+                    <div class="title-box">
+                        <h2>CVE Informations</h2>
+                    </div>
+                    <div class="content-box">
+                        <p>CVE ID: {{ detail_cve.title }}</p>
+                        <p>Published Date: {{ detail_cve.publish_date }}</p>
+                        <p>Modified Date: {{ detail_cve.date_update }}</p>
+                        <button class="btn btn-dark">Follow News Now</button>
+                    </div>
+                </div>
+                <br>
                 <div class="box-info">
-                    <h2>Asking for information</h2>
-                    <hr>
-                    <form method="post">
-                        {% csrf_token %}
-                        <input type="text" name="your_name" placeholder="Your Name"><br>
-                        <input type="text" name="email_address" placeholder="Email Address"><br>
-                        <input type="text" name="phone_number" placeholder="Phone Number"><br>
-                        <textarea name="message" placeholder="Message" rows="5"></textarea><br>
-                        <button class="btn btn-dark" style="width: 100%">Sent</button>
-                    </form>
+                    <div class="title-box">
+                        <h2>Asking for information</h2>
+                    </div>
+                    <div class="content-box">
+                        <form method="post">
+                            {% csrf_token %}
+                            <input type="text" name="your_name" placeholder="Your Name"><br>
+                            <input type="text" name="email_address" placeholder="Email Address"><br>
+                            <input type="text" name="phone_number" placeholder="Phone Number"><br>
+                            <textarea name="message" placeholder="Message" rows="5"></textarea><br>
+                            <button class="btn btn-dark" style="width: 100%">Sent</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
