@@ -40,6 +40,12 @@
     margin: 0;
     padding: 10px;
     }
+    .base-score {
+        background-color: black !important;
+        color: white !important;
+        padding: 10px;
+        border-radius: 10px;
+    }
 {% endblock %}
 
 {% block title %}
@@ -83,6 +89,15 @@
                         <p>Title: {{ detail_cve.references.name }}</p>
                         <p>URL: {{ detail_cve.references.url }}</p>
                     </div>
+                </div>
+                <div class="box-info">
+                    {% if detail_cve.metric.cvssv30 %}
+                        <p class="base-score">BASE SCORE <b style="float: right">{{ detail_cve.metric.cvssv30.base_score }}</b></p>
+                    {% elif detail_cve.metric.cvssv31 %}
+                        <p class="base-score">BASE SCORE <b style="float: right">{{ detail_cve.metric.cvssv31.base_score }}</b></p>
+                    {% elif detail_cve.metric.cvssv20 %}
+                        <p class="base-score">BASE SCORE <b style="float: right">{{ detail_cve.metric.cvssv20.base_score }}</b></p>
+                    {% endif %}
                 </div>
             </div>
             <div class="col-4">

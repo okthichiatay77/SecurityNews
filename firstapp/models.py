@@ -81,9 +81,9 @@ class CvssV31(models.Model):
 
 class Metric(models.Model):
     format = models.CharField(max_length=200)
-    cvssv20 = models.ForeignKey(CvssV20, on_delete=models.CASCADE, related_name='metric_cvss_v20', default=None)
-    cvssv30 = models.ForeignKey(CvssV20, on_delete=models.CASCADE, related_name='metric_cvss_v30', default=None)
-    cvssv31 = models.ForeignKey(CvssV20, on_delete=models.CASCADE, related_name='metric_cvss_v31', default=None)
+    cvssv20 = models.ForeignKey(CvssV20, on_delete=models.CASCADE, related_name='metric_cvss_v20', default=None, blank=True, null=True)
+    cvssv30 = models.ForeignKey(CvssV20, on_delete=models.CASCADE, related_name='metric_cvss_v30', default=None, blank=True, null=True)
+    cvssv31 = models.ForeignKey(CvssV20, on_delete=models.CASCADE, related_name='metric_cvss_v31', default=None, blank=True, null=True)
 
     def __str__(self):
         return str(self.format)
