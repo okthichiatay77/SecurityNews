@@ -68,24 +68,24 @@
         <div class="col">
             <h3>QUICK LINKS</h3>
             <p>Go fast to your destination</p>
-            <p><a>Home</a></p>
-            <p><a>Dashboard</a></p>
-            <p><a>Finding</a></p>
-            <p><a>Profile</a></p>
+            <a href="{% url 'app:home' %}"><p style="color: royalblue">Home</p></a>
+            <a href="{% url 'app:home' %}"><p style="color: royalblue">Dashboard</p></a>
+            <a href="{% url 'app:list_cves' %}"><p style="color: royalblue">Finding</p></a>
+            <a href="{% url 'accounts:profile' %}"><p style="color: royalblue">Profile</p></a>
         </div>
         <div class="col icon-social">
             <h3>ABOUT</h3>
-            <a><img alt="icon-facebook" src="/media/icon-fb.png" /></a>
-            <a><img alt="icon-instagram" src="/media/icon-instagram.png" /></a>
-            <a><img alt="icon-linkedin" src="/media/icon-linkedin.png" /></a>
-            <a><img alt="icon-twitter" src="/media/icon-twitter.png" /></a>
+            <a href="https://www.facebook.com/profile.php?id=100088244351596"><img alt="icon-facebook" src="/media/icon-fb.png" /></a>
+            <a href="https://www.instagram.com/daily_cve_alert?fbclid=IwAR1QpxhZaR_wnf5HqTA2mB_v1WpHZPNdA5HtfX1aNbYDmdnYoBxOcI0W-5I"><img alt="icon-instagram" src="/media/icon-instagram.png" /></a>
+            <a href="https://www.linkedin.com/in/cve-alert-b700302b2/?fbclid=IwAR3H40amSM3V8WjmfHPOdMOso3yIcrqShPfhPIIIIxHakuGTUyVXNIV31Cc"><img alt="icon-linkedin" src="/media/icon-linkedin.png" /></a>
+            <a href="https://twitter.com/CveDailyAlert?fbclid=IwAR0Sq2jk2gQs_pO3M4T18g7YFnKPlriPPuZVn4Uo9sDSIGjGRtkIScP26HY"><img alt="icon-twitter" src="/media/icon-twitter.png" /></a>
         </div>
         <div class="col">
             <h3>FOR DEV OWNER</h3>
             <p>We value our CVE listings and are committed to providing support and the latest vulnerabilities based on the technologies our users follow.</p>
             <h3>BECOME OUR PARTNER</h3>
             <p>Interested in becoming our partner? Contact us here</p>
-            <p><b>Email: example@gmail.com</b></p>
+            <a href="mailto:CveDailyAlert@gmail.com"><p><b style="color: white">Email: CveDailyAlert@gmail.com</b></p></a>
             <p><b>Phone number: 1900010000</b></p>
         </div>
     </div>

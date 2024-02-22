@@ -25,8 +25,8 @@
     background-color: #222831 !important;
     }
     a {
-        text-decoration: none;
-        color: black;
+    text-decoration: none;
+    color: black;
     }
     .top-right {
     position: absolute;
@@ -38,10 +38,10 @@
     color: white;
     }
     .rectangle {
-      height: 40px;
-      width: 15px;
-      background-color: #0F60DD;
-      float:left;
+    height: 40px;
+    width: 15px;
+    background-color: #0F60DD;
+    float:left;
     }
 {% endblock %}
 
@@ -64,7 +64,7 @@
                     </p>
                     <div class="row">
                         <div class="col">
-                            <button style="width: 100%" class="btn btn-primary">FIND NOW</button>
+                            <a href="{% url 'app:list_cves' %}"><button style="width: 100%" class="btn btn-primary">FIND NOW</button></a>
                         </div>
                         <div class="col">
                             <button style="width: 100%" class="btn btn-primary">LEARN MORE</button>
@@ -79,32 +79,40 @@
             <h1><b style="color: dodgerblue">FIND</b> <b>YOUR</b> <b style="color: dodgerblue">CVE</b></h1>
             <p>Find technologies...</p>
             <form method="post">
+                {% csrf_token %}
                 <input type="text" name="id_cve" style="width: 100%" placeholder="Find CVE-ID">
                 <button type="submit" class="btn btn-primary button-find">FIND NOW</button>
             </form>
         </div>
         <div class="row">
-            <a href="#" style="text-decoration: none;"><h2 style="color: white"><div class="rectangle"></div>&nbsp;Lastest News</h2></a>
+            <a style="text-decoration: none;" href="{% url 'app:list_cves' %}">
+                <h2 style="color: white;">
+                    <div class="rectangle"></div>&nbsp;List CVE
+                </h2>
+            </a>
             <div class="row row-cols-1 row-cols-md-3 g-4">
-                {% for i in list_test %}
-                        <div class="col">
-                            <div class="card h-100">
-                                <img src="/media/bg-sec.jpg" class="card-img-top" alt="...">
-                                <div class="card-body">
-                                    <h3 class="card-title">News {{ i }}</h3>
-                                    <p class="card-text">
-                                        Publish Date: xxxx
-                                    </p>
-                                    <p class="card-text">
-                                        Type: xxxx
-                                    </p>
+                {% for i in list_news %}
+                    <div class="col">
+                        <div class="card h-100">
+                            <a href="{% url 'app:detail_cves' pk=i.pk %}"><img src="/media/{{ i.avatar }}"
+                                                                               class="card-img-top" alt="..."
+                                                                               style="width: 100%; height: 200px;"></a>
+                            <div class="card-body">
+                                <a href="{% url 'app:detail_cves' pk=i.pk %}"><h3 class="card-title">{{ i.title }}</h3>
+                                </a><br>
+                                <p class="card-text">
+                                    Publish Date: {{ i.publish_date }}
+                                </p>
+                                <p class="card-text">
+                                    Type: {{ i.data_type }}
+                                </p>
 
-                                    <a>
-                                        <button class="btn btn-dark">READ NOW</button>
-                                    </a>
-                                </div>
+                                <a href="{% url 'app:detail_cves' pk=i.pk %}">
+                                    <button class="btn btn-dark">READ NOW</button>
+                                </a>
                             </div>
                         </div>
+                    </div>
                 {% endfor %}
             </div>
         </div>
@@ -113,7 +121,11 @@
     <div style="background-color: white !important; color: black !important; padding: 20px;">
         <div class="container">
             <div class="row">
-                <a style="text-decoration: none;" href="#"><h2 style="color: black"><div class="rectangle"></div>&nbsp;Technoligies</h2></a>
+                <a style="text-decoration: none;" href="#">
+                    <h2 style="color: black">
+                        <div class="rectangle"></div>&nbsp;Technoligies
+                    </h2>
+                </a>
                 <div class="row row-cols-1 row-cols-md-3 g-4">
                     {% for i in list_test %}
                         <div class="col">
@@ -139,22 +151,26 @@
             </div>
             <br>
             <div class="row">
-                <a style="text-decoration: none;" href="{% url 'app:list_cves' %}"><h2 style="color: black;"><div class="rectangle"></div>&nbsp;List CVE</h2></a>
+                <a href="#" style="text-decoration: none;">
+                    <h2 style="color: black">
+                        <div class="rectangle"></div>&nbsp;Lastest News
+                    </h2>
+                </a>
                 <div class="row row-cols-1 row-cols-md-3 g-4">
-                    {% for i in list_news %}
+                    {% for i in list_test %}
                         <div class="col">
                             <div class="card h-100">
-                                <a href="{% url 'app:detail_cves' pk=i.pk %}"><img src="/media/{{ i.avatar }}" class="card-img-top" alt="..." style="width: 100%; height: 200px;"></a>
+                                <img src="/media/bg-sec.jpg" class="card-img-top" alt="...">
                                 <div class="card-body">
-                                    <a href="{% url 'app:detail_cves' pk=i.pk %}"><h3 class="card-title">{{ i.title }}</h3></a><br>
+                                    <h3 class="card-title">News {{ i }}</h3>
                                     <p class="card-text">
-                                        Publish Date: {{ i.publish_date }}
+                                        Publish Date: xxxx
                                     </p>
                                     <p class="card-text">
-                                        Type: {{ i.data_type }}
+                                        Type: xxxx
                                     </p>
 
-                                    <a href="{% url 'app:detail_cves' pk=i.pk %}">
+                                    <a>
                                         <button class="btn btn-dark">READ NOW</button>
                                     </a>
                                 </div>
