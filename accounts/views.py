@@ -10,6 +10,7 @@ from . import models
 
 def login_view(request):
 	form = AuthenticationForm()
+	msg = ""
 	if request.method == 'POST':
 		form = AuthenticationForm(data=request.POST)
 		if form.is_valid():
@@ -20,8 +21,15 @@ def login_view(request):
 			if user is not None:
 				login(request, user)
 				return HttpResponseRedirect(reverse('app:home'))
-
-	return render(request, 'accounts/login.html', {'form': form})
+			else:
+				msg = "Tên tài khoản hoặc mật khẩu của bạn đăng nhập không chính xác!"
+		else:
+			msg = "Tên tài khoản hoặc mật khẩu của bạn đăng nhập không chính xác!"
+	context = {
+		'form': form,
+		'msg': msg
+	}
+	return render(request, 'accounts/login.html', context=context)
 
 
 def sign_up_view(request):
