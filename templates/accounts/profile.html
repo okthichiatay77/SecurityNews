@@ -71,6 +71,16 @@
                     <button type="submit" class="btn btn-primary">SAVE</button>
                 </form>
             </div>
+        </div><hr>
+        <div>
+            <div class="list-group">
+              <a href="#" class="list-group-item list-group-item-action active" aria-current="true">
+                List Affected! You have followed
+              </a>
+                {% for it in list_fllowed %}
+                    <a href="#" class="list-group-item list-group-item-action">{{ it.affected.product }}</a>
+                {% endfor %}
+            </div>
         </div>
     </div>
 {% endblock %}

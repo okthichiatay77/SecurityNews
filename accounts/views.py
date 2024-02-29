@@ -6,7 +6,7 @@ from django.urls import reverse
 
 from . import forms
 from . import models
-
+from firstapp.models import FollowAffected
 
 status_noti = [
 	('telegram', 'Telegram'),
@@ -88,6 +88,7 @@ def logout_view(request):
 
 @login_required
 def profile_detail_view(request):
+	list_followed = FollowAffected.objects.filter(user=request.user)
 	form = forms.EditProfile()
 	profile = models.UserProfile.objects.get(user=request.user)
 	if request.method == 'POST':
@@ -99,6 +100,7 @@ def profile_detail_view(request):
 	context = {
 		'profile': profile,
 		'form': form,
+		'list_fllowed': list_followed
 	}
 	return render(request, 'accounts/profile.html', context=context)
 
