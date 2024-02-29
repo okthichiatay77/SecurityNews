@@ -8,6 +8,13 @@ from . import forms
 from . import models
 
 
+status_noti = [
+	('telegram', 'Telegram'),
+	('gmail', 'Gmail'),
+	('all', 'All')
+]
+
+
 def login_view(request):
 	form = AuthenticationForm()
 	msg = ""
@@ -39,10 +46,38 @@ def sign_up_view(request):
 		if form.is_valid():
 			user = form.save()
 			create_profile = models.UserProfile.objects.create(user=user)
+			create_notifi = models.NotificationUser.objects.create(user=user)
 			create_profile.save()
+			create_notifi.save()
 			return HttpResponseRedirect(reverse('accounts:login'))
 
 	return render(request, 'accounts/sign_up.html', {'form': form})
+
+
+def notification_user_view(request):
+	form = forms.CreateNotification()
+	data_noti = models.NotificationUser.objects.get(user_id=request.user.id)
+	if request.method == 'POST':
+		status = request.POST['status']
+		email_address = request.POST['email_address']
+		token_bot = request.POST['token_bot']
+		chat_id = request.POST['chat_id']
+
+		data_noti.status = status
+		data_noti.email_address = email_address
+		data_noti.token_bot = token_bot
+		data_noti.chat_id = chat_id
+		data_noti.save()
+
+		return HttpResponseRedirect(reverse('accounts:profile'))
+
+	context = {
+		'user': request.user,
+		'form': form,
+		'data_noti': data_noti,
+		'status_noti': status_noti,
+	}
+	return render(request, 'accounts/notification_user.html', context=context)
 
 
 @login_required

@@ -56,6 +56,11 @@
                     <a class="nav-link" href="{% url 'accounts:sign_up' %}">Sign Up</a>
                 </li>
             {% endif %}
+            {% if user.is_superuser %}
+                <li content="nav-item">
+                    <a class="nav-link" href="{% url 'app:create_cves' %}"><b>Create CVE</b></a>
+                </li>
+            {% endif %}
         </ul>
     </div>
 </nav>

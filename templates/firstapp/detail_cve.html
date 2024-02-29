@@ -41,10 +41,17 @@
     padding: 10px;
     }
     .base-score {
-        background-color: black !important;
-        color: white !important;
+    background-color: black !important;
+    color: white !important;
+    padding: 10px;
+    border-radius: 10px;
+    }
+    .alert-msg {
+        background-color: lightgreen;
+        color: white;
         padding: 10px;
-        border-radius: 10px;
+        border-radius: 5px;
+        border-color: red;
     }
 {% endblock %}
 
@@ -60,6 +67,7 @@
         <div class="row">
             <div class="col-8">
                 <h1>{{ detail_cve.title }}</h1>
+                <h2>{{ test }}</h2>
                 <h1>{{ detail_cve.short_name }}</h1>
                 <img src="/media/{{ detail_cve.avatar }}" style="width: 100%; border-radius: 10px;">
                 <div class="box-info">
@@ -92,11 +100,14 @@
                 </div>
                 <div class="box-info">
                     {% if detail_cve.metric.cvssv30 %}
-                        <p class="base-score">BASE SCORE <b style="float: right">{{ detail_cve.metric.cvssv30.base_score }}</b></p>
+                        <p class="base-score">BASE SCORE <b
+                                style="float: right">{{ detail_cve.metric.cvssv30.base_score }}</b></p>
                     {% elif detail_cve.metric.cvssv31 %}
-                        <p class="base-score">BASE SCORE <b style="float: right">{{ detail_cve.metric.cvssv31.base_score }}</b></p>
+                        <p class="base-score">BASE SCORE <b
+                                style="float: right">{{ detail_cve.metric.cvssv31.base_score }}</b></p>
                     {% elif detail_cve.metric.cvssv20 %}
-                        <p class="base-score">BASE SCORE <b style="float: right">{{ detail_cve.metric.cvssv20.base_score }}</b></p>
+                        <p class="base-score">BASE SCORE <b
+                                style="float: right">{{ detail_cve.metric.cvssv20.base_score }}</b></p>
                     {% endif %}
                 </div>
             </div>
@@ -106,10 +117,17 @@
                         <h2>CVE Informations</h2>
                     </div>
                     <div class="content-box">
-                        <p>CVE ID: {{ detail_cve.title }}</p>
-                        <p>Published Date: {{ detail_cve.publish_date }}</p>
-                        <p>Modified Date: {{ detail_cve.date_update }}</p>
-                        <button class="btn btn-dark">Follow News Now</button>
+                        <form method="post">
+                            {% csrf_token %}
+                            {% if msg %}
+                                <p class="alert-msg">{{ msg }}</p>
+                            {% endif %}
+                            <p>CVE ID: {{ detail_cve.title }}</p>
+                            <p>Published Date: {{ detail_cve.publish_date }}</p>
+                            <p>Modified Date: {{ detail_cve.date_update }}</p>
+                            <input name="follow_affect" value="{{ detail_cve.affected.id }}" style="display: none">
+                            <button class="btn btn-dark">Follow News Now</button>
+                        </form>
                     </div>
                 </div>
                 <br>
