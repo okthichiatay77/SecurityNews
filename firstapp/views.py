@@ -7,6 +7,7 @@ from .forms import CVEForm
 
 from _common.alert_email import send_email
 from _common.alert_telegram import send_message_telegram
+from _common.common import reformat_form_telegram
 
 def index_view(request):
 	list_cve = CVE.objects.all()[:3]
@@ -22,11 +23,14 @@ def index_view(request):
 
 
 def list_cves_view(request):
-	if request.method == 'POST':
+	list_cve = CVE.objects.all()
+	if request.method == 'POST' and 'search_focus' in request.POST:
 		id_cve = request.POST['search_focus']
 		list_cve = CVE.objects.filter(title__contains=id_cve)
-	else:
-		list_cve = CVE.objects.all()
+	elif request.method == 'POST' and 'newest' in request.POST:
+		list_cve = CVE.objects.all().order_by('-publish_date')
+	elif request.method == 'POST' and 'oldest' in request.POST:
+		list_cve = CVE.objects.all().order_by('publish_date')
 	context = {
 		# 'list_cve': [1, 2, 3, 4],
 		'list_cve': list_cve
@@ -62,12 +66,14 @@ def create_cves_view(request):
 	if request.method == 'POST':
 		form = CVEForm(request.POST or None, request.FILES)
 		if form.is_valid():
-			form.save(commit=True)
+			data = form.save(commit=True)
 			title = request.POST['title']
+			pk = data.pk
 			for it in FollowAffected.objects.filter(affected_id=request.POST['affected']).all():
 				info = NotificationUser.objects.get(user_id=it.user_id)
+				message = reformat_form_telegram(title, pk)
 				# send_email(info.email_address, title)
-				send_message_telegram(title, info.token_bot, info.chat_id)
+				send_message_telegram(message, info.token_bot, info.chat_id)
 
 			return HttpResponseRedirect(reverse('app:list_cves'))
 

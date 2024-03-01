@@ -40,6 +40,7 @@
                 <h3>FINDING METHODS</h3>
                 <hr>
                 <form method="post">
+                    {% csrf_token %}
                     <input type="checkbox" id="product" name="product" value="product">
                     <label for="product">Product</label><br>
                     <input type="checkbox" id="vendor" name="vendor" value="vendor">
@@ -56,12 +57,10 @@
                     <label for="vehicle3">2001</label><br><br>
                     <h3>SORT BY</h3>
                     <hr>
-                    <input type="checkbox" id="lastest" name="lastest" value="lastest">
-                    <label for="lastest">Lastest</label><br>
+                    <input type="checkbox" id="newest" name="newest" value="newest">
+                    <label for="newest">Newest</label><br>
                     <input type="checkbox" id="oldest" name="oldest" value="oldest">
-                    <label for="oldest">Oldest</label><br>
-                    <input type="checkbox" id="most_popular" name="most_popular" value="most_popular">
-                    <label for="most_popular">Most popular</label><br><br>
+                    <label for="oldest">Oldest</label><hr>
                     <button class="btn btn-dark">Find</button>
                 </form>
 
@@ -82,7 +81,7 @@
                                             href="{% url 'app:detail_cves' pk=it.pk %}">{{ it.title }}</a></h5>
                                     <p class="card-text">Product: {{ it.affected.product.name }}</p>
                                     <p class="card-text">Title: {{ it.short_name }}</p>
-                                    <p class="card-text">Pusblished Date: {{ it.publish_date }}</p>
+                                    <p class="card-text">Pusblished Date: {{ it.publish_date|date:"d-m-y H:i:s" }}</p>
                                     <p class="card-text">
                                         <a href="{% url 'app:detail_cves' pk=it.pk %}">
                                             <button class="btn btn-primary">READ NOW</button>
