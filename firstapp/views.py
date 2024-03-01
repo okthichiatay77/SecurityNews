@@ -17,7 +17,7 @@ def index_view(request):
 
 	context = {
 		'list_test': [1, 2, 3],
-		'list_news': list_cve,
+		'list_cves': list_cve,
 	}
 	return render(request, 'home.html', context=context)
 
