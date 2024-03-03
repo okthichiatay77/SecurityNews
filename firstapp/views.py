@@ -9,6 +9,7 @@ from _common.alert_email import send_email
 from _common.alert_telegram import send_message_telegram
 from _common.common import reformat_form_telegram
 
+
 def index_view(request):
 	list_cve = CVE.objects.all()[:3]
 	if request.method == 'POST':
@@ -72,8 +73,16 @@ def create_cves_view(request):
 			for it in FollowAffected.objects.filter(affected_id=request.POST['affected']).all():
 				info = NotificationUser.objects.get(user_id=it.user_id)
 				message = reformat_form_telegram(title, pk)
-				# send_email(info.email_address, title)
-				send_message_telegram(message, info.token_bot, info.chat_id)
+				if info.status == 'telegram':
+					# print("---- Telegram")
+					send_message_telegram(message, info.token_bot, info.chat_id)
+				elif info.status == 'gmail':
+					# print("---- Gmail")
+					send_email(message, info.email_address)
+				else:
+					# print("------- all")
+					send_email(message, info.email_address)
+					send_message_telegram(message, info.token_bot, info.chat_id)
 
 			return HttpResponseRedirect(reverse('app:list_cves'))
 
