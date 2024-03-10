@@ -106,22 +106,6 @@ def profile_detail_view(request):
 
 
 @login_required
-def edit_profile_view(request):
-	form = forms.EditProfile()
-	profile = models.UserProfile.objects.get(user=request.user)
-	if request.method == 'POST':
-		form = forms.EditProfile(request.POST or None, request.FILES, instance=profile)
-		if form.is_valid():
-			form.save(commit=True)
-			return HttpResponseRedirect(reverse('accounts:profile'))
-
-	context = {
-		'form': form
-	}
-	return render(request, 'accounts/edit_profile.html', context=context)
-
-
-@login_required
 def change_password_view(request, pk):
 	mess = ""
 	if request.method == 'POST' and 'your_news_password1' in request.POST:

@@ -4,7 +4,7 @@ from django.contrib.auth.models import User, AbstractUser
 
 class UserProfile(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='user_profile')
-	avatar_profile = models.ImageField(upload_to='avatar_profile', blank=True)
+	# avatar_profile = models.ImageField(upload_to='avatar_profile', blank=True)
 	dob = models.CharField(blank=True, max_length=50)
 	phone_number = models.CharField(max_length=20, blank=True)
 	full_name = models.CharField(max_length=40, blank=True)

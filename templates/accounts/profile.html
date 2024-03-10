@@ -33,7 +33,7 @@
 {% block content %}
     <div class="container" style="padding: 20px;">
         <div class="row">
-            <div class="col-2 list-page-profile">
+            <div class="col-4 list-page-profile">
                 <p>
                     <a class="{% if '/account/profile/' == request.path %}active{% endif %}"
                        href="{% url 'accounts:profile' %}">Personal Info</a>
@@ -49,11 +49,6 @@
                     <a href="{% url 'accounts:notification' %}">Setting Notification</a>
                 </p>
             </div>
-            <div class="col-3 form-edit-avatar" style="padding: 30px;">
-                <img src="/media/{{ profile.avatar_profile }}"
-                     style="border-radius: 50%; width: 150px; height: 150px;" id="image"/>
-                <p><b>Avatar</b></p>
-            </div>
             <div class="col-6">
                 <form method="post" class="form-edit-profile" enctype="multipart/form-data">
                     {% csrf_token %}
@@ -66,8 +61,6 @@
                     <input type="text" name="phone_number" maxlength="20" id="id_phone_number" value="{{ profile.phone_number }}">
                     <label for="id_email_profile">Email profile:</label>
                     <input type="email" name="email_profile" maxlength="100" id="id_email_profile" value="{{ profile.email_profile }}">
-                    <label for="id_avatar_profile">Avatar profile:</label>
-                    <input type="file" name="avatar_profile" accept="image/*" id="id_avatar_profile">
                     <button type="submit" class="btn btn-primary">SAVE</button>
                 </form>
             </div>

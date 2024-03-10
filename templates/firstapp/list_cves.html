@@ -11,6 +11,12 @@
     width: 100%;
     height: 250px;
     }
+    .button-paging {
+        padding-left: 10px;
+        padding-right: 10px;
+        margin: 10px;
+        border-radius: 5px;
+    }
 {% endblock %}
 
 {% block title %}
@@ -71,17 +77,11 @@
                     <div class="card mb-3">
                         <div class="row g-0">
                             <div class="col-md-6">
-                                <a href="{% url 'app:detail_cves' pk=it.pk %}"><img src="/media/{{ it.avatar }}"
-                                                                                    class="img-fluid rounded-start img-cve"
-                                                                                    alt="avatar-cve"></a>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="card-body">
-                                    <h5 class="card-title"><a
-                                            href="{% url 'app:detail_cves' pk=it.pk %}">{{ it.title }}</a></h5>
-                                    <p class="card-text">Product: {{ it.affected.product.name }}</p>
-                                    <p class="card-text">Title: {{ it.short_name }}</p>
-                                    <p class="card-text">Pusblished Date: {{ it.publish_date|date:"d-m-y H:i:s" }}</p>
+                                <div class="card-body" style="padding: 30px;">
+                                    <h3 class="card-title"><a
+                                            href="{% url 'app:detail_cves' pk=it.pk %}">{{ it.cve_id }}</a></h3>
+                                    <p class="card-text">Short Name: {{ it.short_name }}</p>
+                                    <p class="card-text">Date Publish: {{ it.date_publish|date:"Y-m-d H:i:s" }}</p>
                                     <p class="card-text">
                                         <a href="{% url 'app:detail_cves' pk=it.pk %}">
                                             <button class="btn btn-primary">READ NOW</button>
@@ -92,6 +92,11 @@
                         </div>
                     </div>
                 {% endfor %}
+            <div class="pagination">
+                {% for page in  paginator.page_range %}
+                    <a href="{% url 'app:list_cves' page=page %}"><button class="button-paging">{{ page }}</button></a>
+                {% endfor %}
+            </div>
             </div>
         </div>
     </div>

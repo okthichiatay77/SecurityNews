@@ -1,9 +1,11 @@
 from django.shortcuts import render, HttpResponseRedirect
 from django.urls import reverse
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-from .models import CVE, Affected, References, Metric, FollowAffected
+
+from .models import CVE, Affected, References, Metric, FollowAffected, Product, Vendor
 from accounts.models import NotificationUser
-from .forms import CVEForm
+from .forms import CVEForm, AffectedForm
 
 from _common.alert_email import send_email
 from _common.alert_telegram import send_message_telegram
@@ -14,7 +16,7 @@ def index_view(request):
 	list_cve = CVE.objects.all()[:3]
 	if request.method == 'POST':
 		id_cve = request.POST['id_cve']
-		list_cve = CVE.objects.filter(title__contains=id_cve)
+		list_cve = CVE.objects.filter(cve_id__contains=id_cve)
 
 	context = {
 		'list_test': [1, 2, 3],
@@ -23,40 +25,74 @@ def index_view(request):
 	return render(request, 'home.html', context=context)
 
 
-def list_cves_view(request):
+def list_cves_view(request, page):
 	list_cve = CVE.objects.all()
 	if request.method == 'POST' and 'search_focus' in request.POST:
 		id_cve = request.POST['search_focus']
-		list_cve = CVE.objects.filter(title__contains=id_cve)
+		list_cve = CVE.objects.filter(cve_id__contains=id_cve)
 	elif request.method == 'POST' and 'newest' in request.POST:
-		list_cve = CVE.objects.all().order_by('-publish_date')
+		list_cve = CVE.objects.all().order_by('-date_publish')
 	elif request.method == 'POST' and 'oldest' in request.POST:
-		list_cve = CVE.objects.all().order_by('publish_date')
+		list_cve = CVE.objects.all().order_by('date_publish')
+
+	per_page = request.GET.get("per_page", 15)
+	paginator = Paginator(list_cve, per_page)
+	page_obj = paginator.get_page(page)
+
+	data = page_obj.object_list
+
 	context = {
-		# 'list_cve': [1, 2, 3, 4],
-		'list_cve': list_cve
+		"page": {
+			'current': page_obj.number,
+			'has_next': page_obj.has_next(),
+			'has_previous': page_obj.has_previous(),
+		},
+		'paginator': paginator,
+		'list_cve': data,
 	}
 	return render(request, 'firstapp/list_cves.html', context=context)
 
 
 def detail_cves_view(request, pk):
 	detail_cve = CVE.objects.get(pk=pk)
+	try:
+		affected = Affected.objects.get(cve_id=detail_cve.id)
+	except:
+		affected = None
+
+	try:
+		reference = References.objects.get(cve=detail_cve)
+	except:
+		reference = None
+
+	try:
+		metric = Metric.objects.get(cve=detail_cve)
+	except:
+		metric = None
 	if request.method == 'POST':
-		try:
-			check = FollowAffected.objects.get(user=request.user, affected_id=request.POST['follow_affect'])
-		except:
-			check = None
-		if check:
-			msg = 'You had follow this Affeted'
+		affect_id = request.POST['follow_affect']
+		if affect_id == "null":
+			msg = "CVE not have affected! Please create affected for this CVE"
 		else:
-			follow_aff = FollowAffected.objects.create(user=request.user, affected_id=request.POST['follow_affect'])
-			follow_aff.save()
-			msg = "You have been tracked successfully!"
+			try:
+				check = FollowAffected.objects.get(user=request.user, affected_id=affect_id)
+			except:
+				check = None
+
+			if check:
+				msg = 'You had follow this Affeted'
+			else:
+				follow_aff = FollowAffected.objects.create(user=request.user, affected_id=affect_id)
+				follow_aff.save()
+				msg = "You have been tracked successfully!"
 	else:
 		msg = ""
 
 	context = {
 		'detail_cve': detail_cve,
+		'affected': affected,
+		'reference': reference,
+		'metric': metric,
 		'msg': msg,
 	}
 	return render(request, 'firstapp/detail_cve.html', context=context)
@@ -87,4 +123,59 @@ def create_cves_view(request):
 			return HttpResponseRedirect(reverse('app:list_cves'))
 
 	return render(request, 'firstapp/create_cves.html', {'form': form})
+
+
+def create_affrected_view(request):
+	form = AffectedForm()
+	if request.method == 'POST':
+		form = AffectedForm(request.POST)
+		if form.is_valid():
+			_data = form.save(commit=True)
+			title_cve = _data.cve.cve_id
+			pk_cve = _data.cve.pk
+			for it in FollowAffected.objects.filter(
+					affected__product_id=_data.product.id, affected__vendor_id=_data.vendor.id).all():
+				info = NotificationUser.objects.get(user_id=it.user_id)
+				message = reformat_form_telegram(title_cve, pk_cve)
+				if info.status == 'telegram':
+					# print("---- Telegram")
+					send_message_telegram(message, info.token_bot, info.chat_id)
+				elif info.status == 'gmail':
+					# print("---- Gmail")
+					send_email(message, info.email_address)
+				else:
+					# print("------- all")
+					send_email(message, info.email_address)
+					send_message_telegram(message, info.token_bot, info.chat_id)
+
+			return HttpResponseRedirect(reverse('app:home'))
+
+	context = {
+		'form': form
+	}
+	return render(request, 'firstapp/create_affected.html', context=context)
+
+
+def tele_notifi_view(request):
+
+	return render(request, 'telegram_notifi.html')
+
+
+def gmail_notifi_view(request):
+	data_noti = NotificationUser.objects.get(user_id=request.user.id)
+	msg = ""
+	if request.method == 'POST':
+		status = 'gmail'
+		email_address = request.POST['email_notification']
+
+		data_noti.status = status
+		data_noti.email_address = email_address
+
+		data_noti.save()
+		msg = "You have successfully set up Gmail notifications"
+
+	context = {
+		'msg': msg
+	}
+	return render(request, 'gmail_notifi.html', context=context)
 

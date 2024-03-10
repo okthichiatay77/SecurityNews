@@ -62,14 +62,13 @@
 {% block content %}
     <div class="container" style="margin-top: 20px; margin-bottom: 20px">
         <div>
-            <a href="{% url 'app:list_cves' %}"><p>< Explore CVE list</p></a>
+            <a href="{% url 'app:list_cves' page=1 %}"><p>< Explore CVE list</p></a>
         </div>
         <div class="row">
             <div class="col-8">
-                <h1>{{ detail_cve.title }}</h1>
+                <h1>{{ detail_cve.cve_id }}</h1>
                 <h2>{{ test }}</h2>
                 <h1>{{ detail_cve.short_name }}</h1>
-                <img src="/media/{{ detail_cve.avatar }}" style="width: 100%; border-radius: 10px;">
                 <div class="box-info">
                     <div class="title-box">
                         <h2>DESCCRIPTION</h2>
@@ -83,9 +82,9 @@
                         <h2>Vulnerable products, Vendor</h2>
                     </div>
                     <div class="content-box">
-                        <p>Name: {{ detail_cve.affected.product.name }}</p>
-                        <p>Version: {{ detail_cve.affected.product.version.version }}</p>
-                        <p>Vendor name: {{ detail_cve.affected.vendor.name }}</p>
+                        <p>Name: {{ affected.product.name }}</p>
+                        <p>Version: {{ affected.product.version.version }}</p>
+                        <p>Vendor name: {{ affected.vendor.name }}</p>
                     </div>
                 </div>
                 <div class="box-info">
@@ -94,20 +93,19 @@
                     </div>
                     <div class="content-box">
                         <p>Solution: {{ detail_cve.solution }}</p>
-                        <p>Title: {{ detail_cve.references.name }}</p>
-                        <p>URL: {{ detail_cve.references.url }}</p>
+                        <p>URL: {{ reference.url }}</p>
                     </div>
                 </div>
                 <div class="box-info">
-                    {% if detail_cve.metric.cvssv30 %}
+                    {% if metric.cvssv30 %}
                         <p class="base-score">BASE SCORE <b
-                                style="float: right">{{ detail_cve.metric.cvssv30.base_score }}</b></p>
-                    {% elif detail_cve.metric.cvssv31 %}
+                                style="float: right">{{ metric.cvssv30.base_score }}</b></p>
+                    {% elif metric.cvssv31 %}
                         <p class="base-score">BASE SCORE <b
-                                style="float: right">{{ detail_cve.metric.cvssv31.base_score }}</b></p>
-                    {% elif detail_cve.metric.cvssv20 %}
+                                style="float: right">{{ metric.cvssv31.base_score }}</b></p>
+                    {% elif metric.cvssv20 %}
                         <p class="base-score">BASE SCORE <b
-                                style="float: right">{{ detail_cve.metric.cvssv20.base_score }}</b></p>
+                                style="float: right">{{ metric.cvssv20.base_score }}</b></p>
                     {% endif %}
                 </div>
             </div>
@@ -122,10 +120,14 @@
                             {% if msg %}
                                 <p class="alert-msg">{{ msg }}</p>
                             {% endif %}
-                            <p>CVE ID: {{ detail_cve.title }}</p>
-                            <p>Published Date: {{ detail_cve.publish_date }}</p>
+                            <p>CVE ID: {{ detail_cve.cve_id }}</p>
+                            <p>Published Date: {{ detail_cve.date_publish }}</p>
                             <p>Modified Date: {{ detail_cve.date_update }}</p>
-                            <input name="follow_affect" value="{{ detail_cve.affected.id }}" style="display: none">
+                            {% if affected %}
+                                <input name="follow_affect" value="{{ affected.id }}" style="display: none">
+                            {% else %}
+                                <input name="follow_affect" value="null" style="display: none">
+                            {% endif %}
                             <button class="btn btn-dark">Follow News Now</button>
                         </form>
                     </div>

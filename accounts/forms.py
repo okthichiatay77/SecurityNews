@@ -34,7 +34,6 @@ class EditProfile(forms.ModelForm):
 			'dob',
 			'phone_number',
 			'email_profile',
-			'avatar_profile',
 		)
 
 

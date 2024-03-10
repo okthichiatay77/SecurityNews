@@ -1,9 +1,7 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
 from ckeditor.fields import RichTextField
 
-from .models import CVE
+from .models import CVE, Affected
 
 
 class CVEForm(forms.ModelForm):
@@ -14,3 +12,10 @@ class CVEForm(forms.ModelForm):
 		widgets = {
 			'description': RichTextField(config_name='default')
 		}
+
+
+class AffectedForm(forms.ModelForm):
+	class Meta:
+		model = Affected
+		fields = '__all__'
+
