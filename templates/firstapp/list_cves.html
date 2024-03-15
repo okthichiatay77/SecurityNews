@@ -78,7 +78,7 @@
                                 <div class="card-body" style="padding: 30px;">
                                     <h3 class="card-title"><a
                                             href="{% url 'app:detail_cves' pk=it.pk %}">{{ it.cve_id }}</a></h3>
-                                    <p class="card-text">Short Name: {{ it.short_name }}</p>
+                                    <p class="card-text">Year: {{ it.year }}</p>
                                     <p class="card-text">Date Publish: {{ it.date_publish|date:"Y-m-d H:i:s" }}</p>
                                     <p class="card-text">
                                         <a href="{% url 'app:detail_cves' pk=it.pk %}">
