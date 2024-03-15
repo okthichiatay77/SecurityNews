@@ -55,12 +55,10 @@
                     <label for="others">Others</label><br><br>
                     <h3>PUBLISHED YEARS</h3>
                     <hr>
-                    <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
-                    <label for="vehicle1">1999</label><br>
-                    <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
-                    <label for="vehicle2">2000</label><br>
-                    <input type="checkbox" id="vehicle3" name="vehicle3" value="Boat">
-                    <label for="vehicle3">2001</label><br><br>
+                    {% for it in list_years %}
+                        <input type="checkbox" id="years" name="filter_year" value="{{ it }}">
+                        <label for="years">{{ it }}</label><br>
+                    {% endfor %}
                     <h3>SORT BY</h3>
                     <hr>
                     <input type="checkbox" id="newest" name="newest" value="newest">

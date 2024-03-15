@@ -82,9 +82,13 @@
                         <h2>Vulnerable products, Vendor</h2>
                     </div>
                     <div class="content-box">
-                        <p>Name: {{ affected.product.name }}</p>
-                        <p>Version: {{ affected.product.version.version }}</p>
-                        <p>Vendor name: {{ affected.vendor.name }}</p>
+                        {% if affected %}
+                            {% for it in affected %}
+                                <p>Name: {{ it.product.name }}</p>
+                                <p>Version: {{ it.product.version.version }}</p>
+                                <p>Vendor name: {{ it.vendor.name }}</p>
+                            {% endfor %}
+                        {% endif %}
                     </div>
                 </div>
                 <div class="box-info">
@@ -124,7 +128,7 @@
                             <p>Published Date: {{ detail_cve.date_publish }}</p>
                             <p>Modified Date: {{ detail_cve.date_update }}</p>
                             {% if affected %}
-                                <input name="follow_affect" value="{{ affected.id }}" style="display: none">
+                                <input name="follow_affect" value="{{ affected.0.id }}" style="display: none">
                             {% else %}
                                 <input name="follow_affect" value="null" style="display: none">
                             {% endif %}

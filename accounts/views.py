@@ -3,10 +3,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, HttpResponseRedirect
 from django.urls import reverse
+from django.http import JsonResponse
 
 from . import forms
 from . import models
 from firstapp.models import FollowAffected
+from _common.bot_chat import ask_openai
 
 status_noti = [
 	('telegram', 'Telegram'),
@@ -55,9 +57,22 @@ def sign_up_view(request):
 
 
 def notification_user_view(request):
+	try:
+		check_user_notifi = models.NotificationUser.objects.get(user=request.user)
+		if not check_user_notifi.status:
+			status = False
+		else:
+			status = True
+	except:
+		status = False
 	form = forms.CreateNotification()
 	data_noti = models.NotificationUser.objects.get(user_id=request.user.id)
-	if request.method == 'POST':
+	if request.method == 'POST' and 'message' in request.POST:
+		message = request.POST['message']
+		response = ask_openai(message)
+
+		return JsonResponse({'message': message, 'response': response})
+	elif request.method == 'POST':
 		status = request.POST['status']
 		email_address = request.POST['email_address']
 		token_bot = request.POST['token_bot']
@@ -76,6 +91,7 @@ def notification_user_view(request):
 		'form': form,
 		'data_noti': data_noti,
 		'status_noti': status_noti,
+		'status': status,
 	}
 	return render(request, 'accounts/notification_user.html', context=context)
 
@@ -88,10 +104,23 @@ def logout_view(request):
 
 @login_required
 def profile_detail_view(request):
+	try:
+		check_user_notifi = models.NotificationUser.objects.get(user=request.user)
+		if not check_user_notifi.status:
+			status = False
+		else:
+			status = True
+	except:
+		status = False
 	list_followed = FollowAffected.objects.filter(user=request.user)
 	form = forms.EditProfile()
 	profile = models.UserProfile.objects.get(user=request.user)
-	if request.method == 'POST':
+	if request.method == 'POST' and 'message' in request.POST:
+		message = request.POST['message']
+		response = ask_openai(message)
+
+		return JsonResponse({'message': message, 'response': response})
+	elif request.method == 'POST':
 		form = forms.EditProfile(request.POST or None, request.FILES, instance=profile)
 		if form.is_valid():
 			form.save(commit=True)
@@ -100,6 +129,7 @@ def profile_detail_view(request):
 	context = {
 		'profile': profile,
 		'form': form,
+		'status': status,
 		'list_fllowed': list_followed
 	}
 	return render(request, 'accounts/profile.html', context=context)
@@ -107,8 +137,21 @@ def profile_detail_view(request):
 
 @login_required
 def change_password_view(request, pk):
+	try:
+		check_user_notifi = models.NotificationUser.objects.get(user=request.user)
+		if not check_user_notifi.status:
+			status = False
+		else:
+			status = True
+	except:
+		status = False
 	mess = ""
-	if request.method == 'POST' and 'your_news_password1' in request.POST:
+	if request.method == 'POST' and 'message' in request.POST:
+		message = request.POST['message']
+		response = ask_openai(message)
+
+		return JsonResponse({'message': message, 'response': response})
+	elif request.method == 'POST' and 'your_news_password1' in request.POST:
 		cur_user = models.User.objects.get(pk=pk)
 		old_pass = request.POST['old_password']
 		new_password = request.POST['your_news_password1']
@@ -124,6 +167,7 @@ def change_password_view(request, pk):
 			mess = "Bạn đã thay đổi mật khẩu thành công!"
 			return HttpResponseRedirect(reverse('app:home'))
 	context = {
-		'mess': mess
+		'mess': mess,
+		'status': status,
 	}
 	return render(request, 'accounts/change_password.html', context=context)

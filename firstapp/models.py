@@ -12,7 +12,7 @@ class CVE(models.Model):
 	data_version = models.CharField(max_length=100, default="")
 	description = RichTextField(blank=True, null=True)
 	solution = models.CharField(max_length=200, default="")
-	short_name = models.CharField(max_length=200, default="")
+	year = models.IntegerField(blank=True, default=None)
 	date_reserved = models.DateTimeField(blank=True, default=None)
 	date_publish = models.DateTimeField(blank=True, default=None)
 	date_update = models.DateTimeField(blank=True, default=None)
