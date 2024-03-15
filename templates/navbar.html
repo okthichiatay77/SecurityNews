@@ -27,6 +27,115 @@
         body {
             overflow-x: hidden;
         }
+            .chatbot-icon {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            max-width: 50px;
+            height: auto;
+            cursor: pointer;
+        }
+        .chatbot-icon > img {
+            width: 100%;
+        }
+        .chatbot-icon-popup > img {
+            bottom: 200px;
+            left: 20px;
+            max-width: 50px;
+            height: auto;
+
+        }
+
+        .messages-box {
+          overflow-y: auto;
+          height: 450px;
+        }
+        .card-body {
+
+        }
+
+        .messages-list {
+          padding-left: 0;
+        }
+
+        .message {
+          margin-bottom: 15px;
+          list-style: none;
+        }
+
+        .message-text {
+          padding: 10px;
+          border-radius: 5px;
+        }
+
+        .sent {
+            background-color: #1E90FF;
+            align-self: flex-end;
+            border-radius: 15px;
+            left: 110px;
+            max-width: 350px;
+            position: relative;
+
+
+        }
+
+        .received {
+          background-color: #d6d6d7;
+          align-self: flex-start;
+          border-radius: 15px;
+         max-width: 350px;
+
+
+
+        }
+
+        .message-form {
+          padding: 10px;
+          background-color: #f8f9fa;
+        }
+
+        .message-input {
+          flex: 1;
+          border-radius: 15px;
+          border-right: none;
+        }
+
+        .btn-send {
+          border-radius: 15px;
+        }
+
+        .chat-container {
+            width:500px;
+            position: fixed;
+            display: block;
+            right: 20px;
+            bottom: 150px;
+            height: 600px;
+            z-index: 999;
+            border-radius: 10px;
+            background: #fff;
+            border: 2px solid #015884;
+            transform: translateX(calc(100% + 20px));
+            transition: .1s all;
+        }
+        .chat-container.active {
+            transform: none;
+        }
+
+        .message-content-sent {
+            color: white;
+            line-break: auto;
+            width: 350px;
+            font-style: unset;
+            font-size: large;
+        }
+         .message-content-received {
+            color: black;
+            line-break: auto;
+            width: 350px;
+            font-style: unset;
+            font-size: large;
+        }
     </style>
 </head>
 <body>
@@ -67,6 +176,145 @@
 {% block content %}
 
 {% endblock %}
+
+<div class="chatbot-icon" id="chatbot-icon">
+    <img src="/media/chatbot.png" alt="Chatbot Icon">
+</div>
+
+
+<div class="chat-container" id="chatbot_popup">
+    <div class="card ">
+        <div class="card-header bg-primary text-white" style="overflow: auto;">
+            <div class="chatbot-icon-popup">
+                <img src="/media/chatbot.png" alt="Chatbot Icon"><b
+                    style="font-size: large; font-style: unset;"> Alert's Bot</b>
+
+                <a class="list-cves" href="{% url 'app:list_cves' %}">
+                    <b style="font-size: large; font-style: unset;left: 70px; position: relative; ">List CVEs</b></a>
+
+                <button type="submit" class="btn btn-primary btn-notify" style="left: 140px;bottom: 3px; position: relative; border-radius: 15px; background-color: darkslateblue;">
+                    <b style="font-size: large; font-style: unset; ">Notify</b></button>
+            </div>
+
+
+        </div>
+        <!--    {% if user.is_authenticated %}-->
+        <!--    <div class="card-header bg-primary text-white"><b>Welcome, {{user.username}}</b>   <a style="color: yellow;" href="logout">Logout</a></div>-->
+        <!--    {% else %}-->
+        <!--    <div class="card-header bg-primary text-white"><a style="color: yellow" href="login">Login</a>   <a style="color: yellow;" href="register">Register</a></div>-->
+        {% endif %}
+        <div class="card-body messages-box --bs-card-spacer-y --bs-card-spacer-x --bs-card-color" style="with:100%;">
+
+            <ul class="list-unstyled messages-list">
+
+                <li class="message received">
+                    <div class="message-text">
+                        <div class="message-sender">
+                            <b style="font-size: large; font-style: unset;">Alert's Bot</b>
+                        </div>
+                        <div class="message-content">
+                            Hi! I am your AI Chatbot, you can ask me anything.
+                        </div>
+                    </div>
+                </li>
+
+                {% for chat in chats %}
+                <!--                {% if chat.user == request.user %}-->
+
+                <li class="message sent">
+                    <div class="message-text">
+
+                        <div class="message-content-sent">
+                            {{chat.message}}
+                        </div>
+                    </div>
+                </li>
+
+                <li class="message received">
+                    <div class="message-text">
+                        <div class="message-sender">
+                            <b>Alert's Bot</b>
+                        </div>
+                        <div class="message-content-received">
+                            {{chat.response}}
+                        </div>
+                    </div>
+                </li>
+
+                {% endif %}
+                {% endfor %}
+
+            </ul>
+
+        </div>
+    </div>
+    <form class="message-form" method="post">
+        {%csrf_token%}
+        <div class="input-group">
+            <input name="mess_bot" type="text" class="form-control message-input" placeholder="Chat with Alert's Bot...">
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-primary btn-send">Send</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<script>
+    const messagesList = document.querySelector('.messages-list');
+    const messageForm = document.querySelector('.message-form');
+    const messageInput = document.querySelector('.message-input');
+
+    messageForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const message = messageInput.value.trim();
+      if (message.length === 0) {
+        return;
+      }
+
+      const messageItem = document.createElement('li');
+      messageItem.classList.add('message', 'sent');
+      messageItem.innerHTML = `
+          <div class="message-text">
+
+              <div class="message-content">
+                  ${message}
+              </div>
+          </div>`;
+      messagesList.appendChild(messageItem);
+
+      messageInput.value = '';
+
+      fetch('', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          'csrfmiddlewaretoken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+          'message': message
+        })
+      })
+        .then(response => response.json())
+        .then(data => {
+          const response = data.response;
+          const messageItem = document.createElement('li');
+          messageItem.classList.add('message', 'received');
+          messageItem.innerHTML = `
+          <div class="message-text">
+              <div class="message-sender">
+                <b>Alert's</b>
+              </div>
+              <div class="message-content">
+                  ${response}
+              </div>
+          </div>
+            `;
+          messagesList.appendChild(messageItem);
+        });
+    });
+
+</script>
+
 <br>
 <footer style="background-color: black; color: white;">
     <div class="row" style="padding: 30px">
@@ -95,5 +343,19 @@
         </div>
     </div>
 </footer>
+
+<script>
+    var popup = document.getElementById("chatbot_popup"),
+        btnIcon = document.getElementById("chatbot-icon"),
+        btnIcon_popup = document.getElementById("chatbot-icon-popup");
+
+
+    btnIcon.addEventListener('click', () => {
+        popup.classList.toggle('active');
+    });
+    btnIcon_popup.addEventListener('click', () => {
+        popup.classList.toggle('active');
+    });
+</script>
 </body>
 </html>
