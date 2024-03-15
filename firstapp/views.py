@@ -10,7 +10,7 @@ from accounts.models import NotificationUser
 from .forms import CVEForm
 from .models import CVE, FollowAffected
 
-openai_api_key = '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'
+openai_api_key = ''
 openai.api_key = openai_api_key
 
 
