@@ -124,45 +124,12 @@
     <br>
     <div style="background-color: white !important; color: black !important; padding: 20px;">
         <div class="container">
-            <div class="row">
-                <a style="text-decoration: none;" href="#">
-                    <h2 style="color: black">
-                        <div class="rectangle"></div>&nbsp;Technoligies
-                    </h2>
-                </a>
-                <div class="row row-cols-1 row-cols-md-3 g-4">
-                    {% for i in list_test %}
-                        <div class="col">
-                            <div class="card h-100">
-                                <img src="/media/bg-sec.jpg" class="card-img-top" alt="...">
-                                <div class="card-body">
-                                    <h3 class="card-title">Tech {{ i }}</h3>
-                                    <p class="card-text">
-                                        Publish Date: xxxx
-                                    </p>
-                                    <p class="card-text">
-                                        Type: xxxx
-                                    </p>
-
-                                    <a>
-                                        <button class="btn btn-dark">READ NOW</button>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-    </div>
-    <div style="padding: 20px;">
-        <div class="container">
             <a style="text-decoration: none;" href="#">
-                    <h2 style="color: white">
+                    <h2>
                         <div class="rectangle"></div>&nbsp;Notification methods
                     </h2>
             </a><br>
-            <div class="card mb-3" style="max-width: 540px; background-color: #222831; border: none; color: white">
+            <div class="card mb-3" style="max-width: 540px; border: none;">
               <div class="row g-0">
                 <div class="col-md-4">
                   <img src="/media/gmail_logo.png" class="img-fluid rounded-start" alt="...">
@@ -176,7 +143,7 @@
                 </div>
               </div>
             </div>
-            <div class="card mb-3" style="max-width: 540px; background-color: #222831; border: none; color: white">
+            <div class="card mb-3" style="max-width: 540px; border: none;">
               <div class="row g-0">
                 <div class="col-md-4">
                   <img src="/media/telegram_logo.jpg" class="img-fluid rounded-start" alt="...">
@@ -192,5 +159,4 @@
             </div>
         </div>
     </div>
-
 {% endblock %}

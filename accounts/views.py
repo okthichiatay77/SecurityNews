@@ -112,7 +112,6 @@ def profile_detail_view(request):
 			status = True
 	except:
 		status = False
-	list_followed = FollowAffected.objects.filter(user=request.user)
 	form = forms.EditProfile()
 	profile = models.UserProfile.objects.get(user=request.user)
 	if request.method == 'POST' and 'message' in request.POST:
@@ -130,9 +129,15 @@ def profile_detail_view(request):
 		'profile': profile,
 		'form': form,
 		'status': status,
-		'list_fllowed': list_followed
 	}
 	return render(request, 'accounts/profile.html', context=context)
+
+def list_affect_view(request):
+	list_followed = FollowAffected.objects.filter(user=request.user)
+	context = {
+		'list_fllowed': list_followed
+	}
+	return render(request, 'accounts/list_affect.html', context=context)
 
 
 @login_required

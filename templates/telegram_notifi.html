@@ -11,6 +11,10 @@
     margin-bottom: 20px;
     padding: 10px;
     }
+    img {
+        width: 100%;
+        height: auto;
+    }
     .img-cve {
     padding: 20px;
     border-radius: 30px;
@@ -107,7 +111,20 @@
                         <h2>STEP</h2>
                     </div>
                     <div class="content-box">
-                        <p>Test</p>
+                        <h3>Dưới đây là một số hướng dẫn lấy chat id và token để nhận thông báo Telegram</h3>
+                        <p><b>B1:</b> Tìm kiếm <b>BotFather</b>, để tạo bot và làm các bước trong ảnh:</p>
+                        <p>Như trên ảnh mình đã tạo 1 bot có tên là <b>'CD BOT Monitor'</b> và contact của nó là <b>'cd_monitor_bot'</b></p>
+                        <p>Sau khi tạo xong bot và có token của bọn bạn sẽ copy token đó</p>
+                        <img src="/media/tele_step1.png">
+                        <p>B2: Sau khi lấy được token bạn sẽ tìm kiếm bot theo <b>contact</b> của bot và nhấn nút <b>'/start'</b></p>
+                        <img src="/media/tele_step2.png"><br>
+                        <p>B3: Copy token của bạn và lên trang </p>
+                        <p>Để tìm kiếm id kênh chat bot của bạn: (Copy URL dưới và làm theo hướng dẫn)</p>
+                        <p><b>'https://api.telegram.org/bot{}/getUpdates'</b> {} là token của bot để lấy chat id</p>
+                        <img src="/media/tele_step3.png">
+                        <br>
+                        <p>Sau khi copy link trên và chèn token của bot, bạn sẽ thấy chat id của mình.</p>
+                        <p>Và giờ bạn lấy được token và chat id.</p>
                     </div>
                 </div>
             </div>
@@ -144,7 +161,20 @@
                         <h2>Another Methods</h2>
                     </div>
                     <div class="content-box">
-                        Test
+                        <div class="card mb-3" style="max-width: 540px; border: none; background-color: lightgray !important;">
+                          <div class="row g-0">
+                            <div class="col-md-4">
+                              <img src="/media/gmail_logo.png" class="img-fluid rounded-start" alt="...">
+                            </div>
+                            <div class="col-md-8">
+                              <div class="card-body">
+                                <h5 class="card-title">Announce news via Gmail</h5>
+                                <p class="card-text">How to auto send gmail. when news cve publish</p>
+                                <p class="card-text"><a href="{% url 'app:gmail_noti' %}"><b style="color: red">Read more</b></a></p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                     </div>
                 </div>
             </div>

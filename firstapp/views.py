@@ -23,14 +23,16 @@ def index_view(request):
 			status = True
 	except:
 		status = False
+	# chatbot
 	if request.method == 'POST' and 'message' in request.POST:
 		message = request.POST['message']
 		response = ask_openai(message)
-
 		return JsonResponse({'message': message, 'response': response})
+	# tìm kiếm cve
 	elif request.method == 'POST' and 'id_cve' in request.POST:
 		id_cve = request.POST['id_cve']
-		list_cve = CVE.objects.filter(cve_id__contains=id_cve)
+		# trả về trang list cve
+		return HttpResponseRedirect(reverse('app:list_cves', kwargs={'page': "id_cve: {}".format(id_cve)}))
 
 	context = {
 		'list_test': [1, 2, 3],
@@ -50,25 +52,36 @@ def list_cves_view(request, page):
 	except:
 		status = False
 
-	list_cve = CVE.objects.all()
+	# check arg từ tìm kiếm của trang home
+	if page.startswith("id_cve"):
+		list_cve = CVE.objects.filter(cve_id__contains=page.replace("id_cve: ", ""))
+	else:
+		list_cve = CVE.objects.all()
+
+	# lấy danh sách các năm của cve để show ra tìm kiếm
 	list_years = []
 	for it in list_cve:
 		if it.year in list_years:
 			continue
 		list_years.append(it.year)
 
+	# chatbot
 	if request.method == 'POST' and 'message' in request.POST:
 		message = request.POST['message']
 		response = ask_openai(message)
 
 		return JsonResponse({'message': message, 'response': response})
+	# tìm kiếm theo cve_id
 	elif request.method == 'POST' and 'search_focus' in request.POST:
 		id_cve = request.POST['search_focus']
 		list_cve = CVE.objects.filter(cve_id__contains=id_cve)
+	# sắp xếp theo ngày mới nhất
 	elif request.method == 'POST' and 'newest' in request.POST:
 		list_cve = CVE.objects.all().order_by('-date_publish')
+	# sắp xếp theo ngày cũ nhất
 	elif request.method == 'POST' and 'oldest' in request.POST:
 		list_cve = CVE.objects.all().order_by('date_publish')
+	# lọc theo năm cve
 	elif request.method == 'POST' and 'filter_year' in request.POST:
 		list_cve = CVE.objects.filter(year=request.POST['filter_year'])
 
@@ -104,9 +117,6 @@ def detail_cves_view(request, pk):
 	detail_cve = CVE.objects.get(pk=pk)
 	try:
 		affected = Affected.objects.filter(cve_id=detail_cve.id)
-		print("xxx", affected)
-		for it in affected:
-			print("OBJECT->", it)
 	except:
 		affected = None
 
@@ -201,6 +211,8 @@ def create_affrected_view(request):
 		'status': status
 	}
 	return render(request, 'firstapp/create_affected.html', context=context)
+
+
 
 
 def tele_notifi_view(request):

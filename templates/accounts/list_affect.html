@@ -40,30 +40,26 @@
                 </p>
                 <p>
                     <a class="{% if '/account/change-password/' in request.path %}active{% endif %}"
-                       href="{% url 'accounts:change_password' pk=profile.user.pk %}">Password</a>
+                       href="{% url 'accounts:change_password' pk=request.user.pk %}">Password</a>
                 </p>
                 <p>
-                    <a href="{% url 'accounts:list_affect' %}">List Affected You have followed</a>
+                    <a class="{% if '/account/list-affect/' in request.path %}active{% endif %}" href="{% url 'accounts:list_affect' %}">List Affected You have followed</a>
                 </p>
                 <p>
                     <a href="{% url 'accounts:notification' %}">Setting Notification</a>
                 </p>
             </div>
             <div class="col-6">
-                <form method="post" class="form-edit-profile" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    <h2><b>YOUR</b> <b style="color: dodgerblue">INFORMATION</b></h2>
-                    <label for="id_full_name">Full name:</label>
-                    <input type="text" name="full_name" maxlength="40" id="id_full_name" value="{{ profile.full_name }}">
-                    <label for="id_dob">Dob:</label>
-                    <input type="text" name="dob" maxlength="50" id="id_dob" value="{{ profile.dob }}">
-                    <label for="id_phone_number">Phone number:</label>
-                    <input type="text" name="phone_number" maxlength="20" id="id_phone_number" value="{{ profile.phone_number }}">
-                    <label for="id_email_profile">Email profile:</label>
-                    <input type="email" name="email_profile" maxlength="100" id="id_email_profile" value="{{ profile.email_profile }}">
-                    <button type="submit" class="btn btn-primary">SAVE</button>
-                </form>
+                <div class="list-group">
+                    <a href="#" class="list-group-item list-group-item-action active" aria-current="true">
+                        List Affected! You have followed
+                    </a>
+                    {% for it in list_fllowed %}
+                        <a href="#" class="list-group-item list-group-item-action">{{ it.affected }}</a>
+                    {% endfor %}
+                </div>
             </div>
         </div>
+        <hr>
     </div>
 {% endblock %}
