@@ -4,6 +4,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, HttpResponseRedirect
 from django.urls import reverse
 from django.http import JsonResponse
+from django.core.paginator import Paginator
 
 from . import forms
 from . import models
@@ -132,10 +133,45 @@ def profile_detail_view(request):
 	}
 	return render(request, 'accounts/profile.html', context=context)
 
-def list_affect_view(request):
+def list_affect_view(request, page):
 	list_followed = FollowAffected.objects.filter(user=request.user)
+
+	list_products = []
+	unique_id = []
+	for it in list_followed:
+		if it.affected.product_id not in unique_id:
+			unique_id.append(it.affected.product_id)
+			list_products.append(it.affected.product)
+
+	list_venders = []
+	unique_id = []
+	for it in list_followed:
+		if it.affected.vendor_id not in unique_id:
+			unique_id.append(it.affected.vendor_id)
+			list_venders.append(it.affected.vendor)
+
+	if request.method == 'POST' and 'vender_filter' in request.POST:
+		vender = request.POST['vender_filter']
+		print(vender)
+		list_followed = list_followed.filter(affected__vendor__name__contains=vender)
+	elif request.method == 'POST' and 'product_filter' in request.POST:
+		product_filter = request.POST['product_filter']
+		list_followed = list_followed.filter(affected__product__name__contains=product_filter)
+
+	paginator = Paginator(list_followed, 15)
+	page_obj = paginator.get_page(page)
+	data = page_obj.object_list
+
 	context = {
-		'list_fllowed': list_followed
+		"page": {
+			'prev': page_obj.number - 1 if page_obj.number - 1 > 0 else 1,
+			'current': page_obj.number,
+			'next': page_obj.number + 1 if page_obj.number + 1 < paginator.num_pages else paginator.num_pages,
+		},
+		'list_fllowed': data,
+		'list_venders': list_venders,
+		'list_products': list_products,
+		'len_page': paginator.num_pages,
 	}
 	return render(request, 'accounts/list_affect.html', context=context)
 

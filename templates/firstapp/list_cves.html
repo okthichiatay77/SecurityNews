@@ -17,6 +17,11 @@
         margin: 10px;
         border-radius: 5px;
     }
+    .pagination {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 {% endblock %}
 
 {% block title %}
@@ -91,9 +96,9 @@
                     </div>
                 {% endfor %}
             <div class="pagination">
-                {% for page in  paginator.page_range %}
-                    <a href="{% url 'app:list_cves' page=page %}"><button class="button-paging">{{ page }}</button></a>
-                {% endfor %}
+                <a href="{% url 'app:list_cves' page=page.prev %}"><button class="button-paging"><< Prev</button></a>
+                <button class="button-paging">Page {{ page.current }} of  {{ len_page }}</button>
+                <a href="{% url 'app:list_cves' page=page.next %}"><button class="button-paging">Next >></button></a>
             </div>
             </div>
         </div>

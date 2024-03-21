@@ -43,6 +43,7 @@ def index_view(request):
 
 
 def list_cves_view(request, page):
+	# lấy status để check xem user đăng ký thông báo chưa
 	try:
 		check_user_notifi = NotificationUser.objects.get(user=request.user)
 		if not check_user_notifi.status:
@@ -85,19 +86,16 @@ def list_cves_view(request, page):
 	elif request.method == 'POST' and 'filter_year' in request.POST:
 		list_cve = CVE.objects.filter(year=request.POST['filter_year'])
 
-	per_page = request.GET.get("per_page", 15)
-	paginator = Paginator(list_cve, per_page)
+	paginator = Paginator(list_cve, 15)
 	page_obj = paginator.get_page(page)
-
 	data = page_obj.object_list
-
 	context = {
 		"page": {
+			'prev': page_obj.number - 1 if page_obj.number - 1 > 0 else 1,
 			'current': page_obj.number,
-			'has_next': page_obj.has_next(),
-			'has_previous': page_obj.has_previous(),
+			'next': page_obj.number + 1 if page_obj.number + 1 < paginator.num_pages else paginator.num_pages,
 		},
-		'paginator': paginator,
+		'len_page': paginator.num_pages,
 		'list_cve': data,
 		'list_years': list_years,
 		'status': status,

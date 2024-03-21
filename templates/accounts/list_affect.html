@@ -23,10 +23,21 @@
     .list-page-profile > p > .active {
     color: dodgerblue;
     }
+    .button-paging {
+        padding-left: 10px;
+        padding-right: 10px;
+        margin: 10px;
+        border-radius: 5px;
+    }
+    .pagination {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 {% endblock %}
 
 {% block title %}
-    Profile of {{ profile.user.username }}
+    List Affected Followed
 {% endblock %}
 
 
@@ -43,11 +54,33 @@
                        href="{% url 'accounts:change_password' pk=request.user.pk %}">Password</a>
                 </p>
                 <p>
-                    <a class="{% if '/account/list-affect/' in request.path %}active{% endif %}" href="{% url 'accounts:list_affect' %}">List Affected You have followed</a>
+                    <a class="{% if '/account/list-affect/' in request.path %}active{% endif %}"
+                       href="{% url 'accounts:list_affect' page=1 %}">Affected Followed</a>
                 </p>
                 <p>
                     <a href="{% url 'accounts:notification' %}">Setting Notification</a>
                 </p>
+                <hr>
+                <h3>FINDING METHODS</h3>
+                <hr>
+                <form method="post">
+                    {% csrf_token %}
+                    <h3>PRODUCT</h3>
+                    <hr>
+                    {% for vender in list_venders %}
+                        <input type="checkbox" id="vender_filter" name="vender_filter" value="{{ vender }}">
+                        <label for="vender_filter">{{ vender }}</label><br>
+                    {% endfor %}
+                    <hr>
+                    <h3>PRODUCT</h3>
+                    <hr>
+                    {% for product in list_products %}
+                        <input type="checkbox" id="product_filter" name="product_filter" value="{{ product }}">
+                        <label for="product_filter">{{ product }}</label><br>
+                    {% endfor %}
+                    <hr>
+                    <button class="btn btn-dark">Find</button>
+                </form>
             </div>
             <div class="col-6">
                 <div class="list-group">
@@ -55,8 +88,19 @@
                         List Affected! You have followed
                     </a>
                     {% for it in list_fllowed %}
-                        <a href="#" class="list-group-item list-group-item-action">{{ it.affected }}</a>
+                        <div class="card mb-3">
+                            <div class="card-body" style="padding: 20px;">
+                                <h5 class="card-title">CVE ID: {{ it.affected.cve }}</h5>
+                                <p class="card-text">Product: {{ it.affected.product }}</p>
+                                <p class="card-text">Vender: {{ it.affected.vendor }}</p>
+                            </div>
+                        </div>
                     {% endfor %}
+                </div>
+                <div class="pagination">
+                    <a href="{% url 'accounts:list_affect' page=page.prev %}"><button class="button-paging"><< Prev</button></a>
+                    <button class="button-paging">Page {{ page.current }} of  {{ len_page }}</button>
+                    <a href="{% url 'accounts:list_affect' page=page.next %}"><button class="button-paging">Next >></button></a>
                 </div>
             </div>
         </div>

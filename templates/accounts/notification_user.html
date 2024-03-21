@@ -47,7 +47,7 @@
                     <a href="{% url 'accounts:change_password' pk=user.pk %}">Password</a>
                 </p>
                 <p>
-                    <a href="{% url 'accounts:list_affect' %}">List Affected You have followed</a>
+                    <a href="{% url 'accounts:list_affect' page=1 %}">Affected Followed</a>
                 </p>
                 <p>
                     <a class="active" href="{% url 'accounts:notification' %}">Setting Notification</a>
