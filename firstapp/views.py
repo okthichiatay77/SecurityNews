@@ -65,7 +65,7 @@ def list_cves_view(request, page):
 		if it.year in list_years:
 			continue
 		list_years.append(it.year)
-
+	list_years.sort()
 	# chatbot
 	if request.method == 'POST' and 'message' in request.POST:
 		message = request.POST['message']
@@ -85,7 +85,6 @@ def list_cves_view(request, page):
 	# lọc theo năm cve
 	elif request.method == 'POST' and 'filter_year' in request.POST:
 		list_cve = CVE.objects.filter(year=request.POST['filter_year'])
-
 	paginator = Paginator(list_cve, 15)
 	page_obj = paginator.get_page(page)
 	data = page_obj.object_list
@@ -104,6 +103,7 @@ def list_cves_view(request, page):
 
 
 def detail_cves_view(request, pk):
+	# hàm status để kiểm tra xem người dùng đã bật thông báo tele hoặc gmail chưa
 	try:
 		check_user_notifi = NotificationUser.objects.get(user=request.user)
 		if not check_user_notifi.status:
@@ -114,8 +114,10 @@ def detail_cves_view(request, pk):
 		status = False
 	detail_cve = CVE.objects.get(pk=pk)
 	try:
+		# check xem cve hiện tại đã có affected chưa
 		affected = Affected.objects.filter(cve_id=detail_cve.id)
 	except:
+		# nếu chưa
 		affected = None
 
 	try:
@@ -128,30 +130,39 @@ def detail_cves_view(request, pk):
 	except:
 		metric = None
 
+	# bot chat
 	if request.method == 'POST' and 'message' in request.POST:
 		message = request.POST['message']
 		response = ask_openai(message)
 
 		return JsonResponse({'message': message, 'response': response})
+	# follow affected của cve
 	elif request.method == 'POST' and 'follow_affect' in request.POST:
 		affect_id = request.POST['follow_affect']
 		if affect_id == "null":
 			msg = "CVE not have affected! Please create affected for this CVE"
 		else:
+			# hàm này kiểm tra xem user đã follow
 			followed = True
+			# lấy tất cả affect của cve
 			for aff in affected:
 				try:
+					# kiểm tra xem user đã follow affect chưa
 					check = FollowAffected.objects.get(user=request.user, affected_id=aff.id)
 				except:
+					# chưa follow
 					check = None
-
+				# nếu chưa follow thì tạo bảng follow afected
 				if not check:
 					follow_aff = FollowAffected.objects.create(user=request.user, affected_id=aff.id)
 					follow_aff.save()
 					followed = False
+
 			if followed is True:
+				# nếu đã follow hết affect của cve
 				msg = 'You had follow this Affeted'
 			else:
+				# nếu chưa gửi thông báo
 				msg = "You have been tracked successfully!"
 	else:
 		msg = ""
@@ -176,6 +187,7 @@ def create_affrected_view(request):
 	except:
 		status = False
 	form = AffectedForm()
+	# bot chat
 	if request.method == 'POST' and 'message' in request.POST:
 		message = request.POST['message']
 		response = ask_openai(message)
@@ -184,13 +196,17 @@ def create_affrected_view(request):
 	elif request.method == 'POST':
 		form = AffectedForm(request.POST)
 		if form.is_valid():
+			# lưu affected
 			_data = form.save(commit=True)
 			title_cve = _data.cve.cve_id
 			pk_cve = _data.cve.pk
+			# Từ affected trên đã lưu lấy tất cả thông tin user đã follow affected theo pro, ven
 			for it in FollowAffected.objects.filter(
 					affected__product_id=_data.product.id, affected__vendor_id=_data.vendor.id).all():
+				# lấy thông tin token của tele hoặc gmail
 				info = NotificationUser.objects.get(user_id=it.user_id)
 				message = reformat_form_telegram(title_cve, pk_cve)
+				# kiểm tra đã trạng thái user muốn thông báo gì
 				if info.status == 'telegram':
 					# print("---- Telegram")
 					send_message_telegram(message, info.token_bot, info.chat_id)
@@ -211,8 +227,7 @@ def create_affrected_view(request):
 	return render(request, 'firstapp/create_affected.html', context=context)
 
 
-
-
+# view của hướng đẫn lấy token telegram
 def tele_notifi_view(request):
 	try:
 		check_user_notifi = NotificationUser.objects.get(user=request.user)
